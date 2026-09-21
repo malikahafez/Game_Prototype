@@ -373,6 +373,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: plank_06_Broken
       objectReference: {fileID: 0}
+    - target: {fileID: 2741761137169934045, guid: 9191829707d0ad947bf4d03796679ae1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -847,6 +851,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1dfd2039013f6cc40b7b50a4d089557e, type: 3}
       propertyPath: m_Name
       value: ocean_buoy_2k
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1dfd2039013f6cc40b7b50a4d089557e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1373,6 +1381,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: plank_03
       objectReference: {fileID: 0}
+    - target: {fileID: 4896747204659689228, guid: fdb1205e746596f49b15de7d210c6a38, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1592,6 +1604,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: boat_350k
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a021ba4b6ae7bf142a73c9411387e48a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1755,6 +1771,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: plank_01
       objectReference: {fileID: 0}
+    - target: {fileID: 5738586016412596565, guid: dea95bb0c1038fb40911516ac01474da, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 6456382510968348479, guid: dea95bb0c1038fb40911516ac01474da, type: 3}
       propertyPath: m_LocalScale.x
       value: 20
@@ -1907,6 +1927,10 @@ PrefabInstance:
     - target: {fileID: 867127548737574361, guid: 9057a9eb35132e94eaa5862912efd650, type: 3}
       propertyPath: m_Name
       value: post_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 867127548737574361, guid: 9057a9eb35132e94eaa5862912efd650, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 3719203276524201872, guid: 9057a9eb35132e94eaa5862912efd650, type: 3}
       propertyPath: m_LocalScale.x
@@ -2308,6 +2332,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: plank_04
       objectReference: {fileID: 0}
+    - target: {fileID: 8674003565448187567, guid: 23d683482a4e7404c8bdc716a1450f73, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2377,9 +2405,17 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -5568371526223589888, guid: 587fca51dd4defe4697aee0546738af0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 587fca51dd4defe4697aee0546738af0, type: 3}
       propertyPath: m_Name
       value: Barrel
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 587fca51dd4defe4697aee0546738af0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -3192,6 +3228,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: barrel_stove_2k
       objectReference: {fileID: 0}
+    - target: {fileID: 5613353268630137579, guid: a042f9df8e869344f8ec9bb9b2157687, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3273,7 +3313,7 @@ Transform:
   m_GameObject: {fileID: 4260045156427093119}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 70.22492, y: 1.3202723, z: 50.64672}
+  m_LocalPosition: {x: 70.22492, y: 1.320272, z: 50.64672}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -3309,6 +3349,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3482805143786065605}
+  - component: {fileID: 4260045156427093120}
+  - component: {fileID: 4260045156427093121}
   m_Layer: 0
   m_Name: wooden_crate_01_2k
   m_TagString: Untagged
@@ -3316,6 +3358,42 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &4260045156427093120
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260045156427093119}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9e3701b7ea5e0684cb571556e8342926, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4260045156427093121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260045156427093119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e17cea9477f5bf4696d385b9c0e1c02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::crateOpen
+  latch: 0
+  crate: 0
 --- !u!4 &4867866113816529406
 Transform:
   m_ObjectHideFlags: 0

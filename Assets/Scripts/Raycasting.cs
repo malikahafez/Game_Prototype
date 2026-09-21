@@ -1,7 +1,8 @@
 using UnityEngine;
 
 public class Raycasting : MonoBehaviour
-{public static float distanceFromTarget;
+{
+    public static float distanceFromTarget;
     [SerializeField] float toTarget;
     void Update()
     {

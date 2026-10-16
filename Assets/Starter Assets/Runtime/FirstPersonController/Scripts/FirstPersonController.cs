@@ -64,6 +64,14 @@ namespace StarterAssets
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
+		[Header("Configurations")]
+		public float itemPickupDistance;
+		public Transform head;
+
+		[Header("Runtime")]
+		Transform attachedObject = null;
+		public float attachedDistance = 5.0f;
+
 	
 #if ENABLE_INPUT_SYSTEM
 		private PlayerInput _playerInput;
@@ -115,11 +123,17 @@ namespace StarterAssets
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
+			// Pickup();
 		}
 
 		private void LateUpdate()
 		{
 			CameraRotation();
+
+			// if(attachedObject != null){
+			// 	attachedObject.position = head.position + head.forward * attachedDistance;
+			// 	attachedObject.Rotate(transform.right * Input.mouseScrollDelta.y * 30f, Space.World);
+			// }
 		}
 
 		private void GroundedCheck()
@@ -243,6 +257,40 @@ namespace StarterAssets
 			if (_verticalVelocity < _terminalVelocity)
 			{
 				_verticalVelocity += Gravity * Time.deltaTime;
+			}
+		}
+
+		private void Pickup(){
+			RaycastHit hit;
+			bool cast = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, itemPickupDistance);
+
+			if(Input.GetKeyDown(KeyCode.F)){
+				//dropping an item that is already in hand
+				if(attachedObject !=null){
+					attachedObject.SetParent(null);
+					if(attachedObject.GetComponent<Rigidbody>()!=null){
+						attachedObject.GetComponent<Rigidbody>().isKinematic = false;
+					}
+					if(attachedObject.GetComponent<Collider>()!=null ){
+						attachedObject.GetComponent<Collider>().enabled = true;
+					}
+					attachedObject = null;
+				}
+				else{
+					if(cast){
+						if(hit.transform.CompareTag("pickable")){
+							attachedObject = hit.transform;
+							attachedObject.SetParent(transform);
+
+							if(attachedObject.GetComponent<Rigidbody>()!=null){
+								attachedObject.GetComponent<Rigidbody>().isKinematic = true;
+							}
+							if(attachedObject.GetComponent<Collider>()!=null ){
+								attachedObject.GetComponent<Collider>().enabled = false;
+							}
+						}
+					}
+				}
 			}
 		}
 

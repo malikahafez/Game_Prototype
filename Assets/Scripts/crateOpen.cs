@@ -16,7 +16,7 @@ public class crateOpen : MonoBehaviour
         //     OpenCrate();
         // }
         internalDistance = Raycasting.distanceFromTarget;
-        if(latch == false && crate ==false && internalDistance < 3)
+        if(latch == false && crate ==false && internalDistance < 5)
         {
             if (Input.GetKeyDown(KeyCode.O))
             {
@@ -25,7 +25,7 @@ public class crateOpen : MonoBehaviour
             }
             
         }
-        if(latch == true && crate == false && internalDistance < 3)
+        if(latch == true && crate == false && internalDistance < 5)
         {
             if (Input.GetKeyDown(KeyCode.O))
             {

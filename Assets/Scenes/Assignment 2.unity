@@ -1621,6 +1621,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CaveLightTrigger
   directionalLight: {fileID: 410087040}
   transitionDuration: 1.5
+  flashlight: {fileID: 0}
+  spotlight: {fileID: 0}
 --- !u!65 &397112650
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2895,6 +2897,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CaveLightTrigger
   directionalLight: {fileID: 410087040}
   transitionDuration: 1.5
+  flashlight: {fileID: 0}
+  spotlight: {fileID: 0}
 --- !u!65 &708387629
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3700,6 +3704,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1023399426}
+  - component: {fileID: 1023399427}
   m_Layer: 0
   m_Name: Cave
   m_TagString: Untagged
@@ -3734,6 +3739,43 @@ Transform:
   - {fileID: 397112648}
   m_Father: {fileID: 1236895505}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1023399427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023399425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1fbb15bf92b84f40a1eb030765b5afe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.LocalVolumetricFog
+  m_Version: 3
+  parameters:
+    albedo: {r: 1, g: 1, b: 1, a: 1}
+    meanFreePath: 300
+    blendingMode: 1
+    priority: 0
+    anisotropy: 0
+    volumeMask: {fileID: 11700000, guid: b0805fc782bc6874b8c0ada5dc68041c, type: 3}
+    textureScrollingSpeed: {x: 0, y: 0, z: 0}
+    textureTiling: {x: 1, y: 1, z: 1}
+    positiveFade: {x: 0.5, y: 0.5, z: 0.5}
+    negativeFade: {x: 0.5, y: 0.5, z: 0.5}
+    m_EditorUniformFade: 0.5
+    m_EditorPositiveFade: {x: 0.1, y: 0.1, z: 0.1}
+    m_EditorNegativeFade: {x: 0.1, y: 0.1, z: 0.1}
+    m_EditorAdvancedFade: 0
+    scaleMode: 0
+    size: {x: 1, y: 1, z: 1}
+    invertFade: 0
+    distanceFadeStart: 10000
+    distanceFadeEnd: 10000
+    textureOffset: {x: 0, y: 0, z: 0}
+    falloffMode: 0
+    maskMode: 0
+    materialMask: {fileID: 0}
 --- !u!1001 &1041152458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3955,7 +3997,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 1
   m_CustomShadowLayers: 0
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
@@ -3982,9 +4024,9 @@ Light:
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 1, g: 0.9476525, b: 0.75157225, a: 1}
-  m_Intensity: 10
-  m_Range: 20
-  m_SpotAngle: 30
+  m_Intensity: 100
+  m_Range: 30
+  m_SpotAngle: 50
   m_InnerSpotAngle: 30
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
@@ -4021,7 +4063,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -4112,7 +4154,7 @@ Transform:
   m_GameObject: {fileID: 1248323772}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 30.71, y: -12.42, z: 28.39}
+  m_LocalPosition: {x: 30.71, y: -12.42, z: 28.75}
   m_LocalScale: {x: 51.93878, y: 6.5927687, z: 47.911285}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4132,6 +4174,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CaveLightTrigger
   directionalLight: {fileID: 410087040}
   transitionDuration: 3
+  flashlight: {fileID: 1816162554}
+  spotlight: {fileID: 1218498115}
 --- !u!65 &1248323775
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4967,6 +5011,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 708308974}
   m_SourcePrefab: {fileID: 100100000, guid: 2bf43eb951e173f409fc9b76459d2a74, type: 3}
+--- !u!1 &1816162554 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ef357562655740b419b44ec90992086b, type: 3}
+  m_PrefabInstance: {fileID: 2132787802}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1921039221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5581,6 +5630,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ef357562655740b419b44ec90992086b, type: 3}
       propertyPath: m_Name
       value: portable_searchlight_2k
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ef357562655740b419b44ec90992086b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

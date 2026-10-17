@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class NPCInteractControl : MonoBehaviour
@@ -10,6 +11,13 @@ public class NPCInteractControl : MonoBehaviour
     [Header("Player Raycasting")]
     [SerializeField] private Transform playerCameraTransform;
     public float pickupDistance = 5.0f;
+    [Header("Cameras")]
+    [SerializeField] private CinemachineCamera mainCam;
+    [SerializeField] private CinemachineCamera cutsceneCam;
+    [Header("UI Overlay")]
+    [SerializeField] private GameObject dialogUI;
+
+
 
 
 
@@ -29,6 +37,12 @@ public class NPCInteractControl : MonoBehaviour
             }
 
         }
+        else if (isTalking && Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("talking mode " + isTalking);
+            StopTalking();
+            Debug.Log("after disable talking " + isTalking);
+        }
 
     }
 
@@ -38,11 +52,26 @@ public class NPCInteractControl : MonoBehaviour
     {
         anim.SetBool("isTalking", true);
         isTalking = true;
+        //switch camera to telescope camera
+        cutsceneCam.Priority = 20;
+        mainCam.Priority = 10;
+        if (dialogUI != null)
+        {//enable telescope UI
+            dialogUI.SetActive(true);
+        }
     }
 
     void StopTalking()
     {
         anim.SetBool("isTalking", false);
+        isTalking = false;
+        //switch camera to telescope camera
+        cutsceneCam.Priority = 10;
+        mainCam.Priority = 20;
+        if (dialogUI != null)
+        {//enable telescope UI
+            dialogUI.SetActive(false);
+        }
     }
 
 

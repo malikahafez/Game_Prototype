@@ -26,11 +26,14 @@ public class TelescopeControl : MonoBehaviour
             {
                 Debug.Log("telescope " + telescopeMode);
                 enableTelescopeMode();
+                Debug.Log("after enable telescope " + telescopeMode);
+
             }
-            else if (Input.GetKeyDown(KeyCode.E) && telescopeMode)
-            {
-                disableTelescopeMode();
-            }
+
+        }
+        else if (Input.GetKeyDown(KeyCode.E) && telescopeMode)
+        {
+            disableTelescopeMode();
         }
 
     }

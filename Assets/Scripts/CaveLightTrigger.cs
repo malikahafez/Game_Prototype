@@ -30,7 +30,7 @@ public class CaveLightTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // Enter Cave: Zero light, black ambient, Flat mode, and ZERO reflections
-            StartTransition(0f, Color.black, AmbientMode.Flat, 0f, transitionDuration);
+            StartTransition(0f, Color.black, AmbientMode.Flat, 0.3f, transitionDuration);
         }
     }
 

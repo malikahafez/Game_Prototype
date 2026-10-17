@@ -9,6 +9,7 @@ public class CaveLightTrigger : MonoBehaviour
     public float transitionDuration = 1.0f; // Time to fade to black
     public GameObject flashlight;
     public Light spotlight;
+    public ParticleSystem dust;
     private float originalIntensity;
     private Color originalAmbient;
     private AmbientMode originalAmbientMode;
@@ -32,6 +33,7 @@ public class CaveLightTrigger : MonoBehaviour
         {
             spotlight.enabled = true;
             flashlight.SetActive(true);
+            dust.Play();
             // Enter Cave: Zero light, black ambient, Flat mode, and ZERO reflections
             StartTransition(0f, Color.black, AmbientMode.Flat, 0.3f, transitionDuration);
         }
@@ -43,6 +45,8 @@ public class CaveLightTrigger : MonoBehaviour
         {
             spotlight.enabled = false;
             flashlight.SetActive(false);
+            dust.Stop();
+
             // Exit Cave: Restore original exterior settings
             StartTransition(originalIntensity, originalAmbient, originalAmbientMode, originalReflectionIntensity, transitionDuration);
         }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - pickable
+  - telescope
   layers:
   - Default
   - TransparentFX

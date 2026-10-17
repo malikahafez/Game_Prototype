@@ -6100,7 +6100,7 @@ MonoBehaviour:
     Value: 180
     Center: 180
     Range: {x: 140, y: 200}
-    Wrap: 1
+    Wrap: 0
     Recentering:
       Enabled: 0
       Wait: 1

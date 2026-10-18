@@ -16,6 +16,8 @@ public class NPCInteractControl : MonoBehaviour
     [SerializeField] private CinemachineCamera cutsceneCam;
     [Header("UI Overlay")]
     [SerializeField] private GameObject dialogUI;
+    [SerializeField] private GameObject mainUI;
+
 
 
 
@@ -59,6 +61,10 @@ public class NPCInteractControl : MonoBehaviour
         {//enable telescope UI
             dialogUI.SetActive(true);
         }
+        if (mainUI != null)
+        {//enable telescope UI
+            mainUI.SetActive(false);
+        }
     }
 
     void StopTalking()
@@ -71,6 +77,10 @@ public class NPCInteractControl : MonoBehaviour
         if (dialogUI != null)
         {//enable telescope UI
             dialogUI.SetActive(false);
+        }
+        if (mainUI != null)
+        {//enable telescope UI
+            mainUI.SetActive(true);
         }
     }
 

@@ -26,7 +26,7 @@ public class NPCInteractControl : MonoBehaviour
     void Update()
     {
         bool cast = Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit raycasthit, pickupDistance);
-        if (cast)
+        if (cast && !isTalking)
         {
             // Debug.Log("raycast hit " + isTalking);
 

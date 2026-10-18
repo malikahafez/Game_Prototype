@@ -8,6 +8,7 @@ TagManager:
   - pickable
   - telescope
   - npc
+  - questitem
   layers:
   - Default
   - TransparentFX

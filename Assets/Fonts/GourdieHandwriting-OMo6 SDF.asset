@@ -6,7 +6,7 @@ Texture2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GourdieHandwriting-OMo6 Atlas
+  m_Name: GourdieHandwriting-OMo6 SDF Atlas
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
@@ -40,7 +40,7 @@ Texture2D:
   m_ColorSpace: 1
   m_PlatformBlob: 
   image data: 1
-  _typelessdata: cd
+  _typelessdata: 00
   m_StreamData:
     serializedVersion: 2
     offset: 0
@@ -63,24 +63,24 @@ MonoBehaviour:
     m_FaceIndex: 0
     m_FamilyName: Gourdie Handwriting
     m_StyleName: Regular
-    m_PointSize: 90
+    m_PointSize: 145
     m_Scale: 1
     m_UnitsPerEM: 900
-    m_LineHeight: 135.1
-    m_AscentLine: 85
-    m_CapLine: 63
-    m_MeanLine: 52
+    m_LineHeight: 217.6611
+    m_AscentLine: 136.94444
+    m_CapLine: 102
+    m_MeanLine: 84
     m_Baseline: 0
-    m_DescentLine: -43.4
-    m_SuperscriptOffset: 85
+    m_DescentLine: -69.92222
+    m_SuperscriptOffset: 136.94444
     m_SuperscriptSize: 0.5
-    m_SubscriptOffset: -43.4
+    m_SubscriptOffset: -69.92222
     m_SubscriptSize: 0.5
-    m_UnderlineOffset: -18.8
-    m_UnderlineThickness: 4.8
-    m_StrikethroughOffset: 20.8
-    m_StrikethroughThickness: 4.8
-    m_TabWidth: 39
+    m_UnderlineOffset: -30.288887
+    m_UnderlineThickness: 7.733333
+    m_StrikethroughOffset: 33.6
+    m_StrikethroughThickness: 7.733333
+    m_TabWidth: 63
   m_Material: {fileID: 7715166040945579827}
   m_SourceFontFileGUID: 3658ed702c13fe04f90e0755f46a8c64
   m_CreationSettings:
@@ -88,15 +88,15 @@ MonoBehaviour:
     sourceFontFileGUID: 3658ed702c13fe04f90e0755f46a8c64
     faceIndex: 0
     pointSizeSamplingMode: 0
-    pointSize: 90
+    pointSize: 145
     padding: 9
     paddingMode: 2
     packingMode: 0
     atlasWidth: 1024
     atlasHeight: 1024
-    characterSetSelectionMode: 7
-    characterSequence: 
-    referencedFontAssetGUID: 
+    characterSetSelectionMode: 6
+    characterSequence: 20-7E,A0-FF,2010,2013-2014,2018-201A,201C-201E,2020-2022,2026,2030,2039-203A,2044,2122
+    referencedFontAssetGUID: ea1a8a91473df794981d599c8864d348
     referencedTextAssetGUID: 
     fontStyle: 0
     fontStyleModifier: 0
@@ -260,9 +260,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.9
+    - _ScaleRatioB: 0.73125
+    - _ScaleRatioC: 0.73125
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0

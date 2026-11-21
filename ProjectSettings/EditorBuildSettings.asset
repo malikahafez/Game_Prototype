@@ -6,8 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Assignment 3/00_MainMenu.unity
+    guid: 89636357c5ce4b343b4fa0ac5afb726f
+  - enabled: 1
+    path: Assets/Scenes/Assignment 3/01_Level1_CapeFarewell.unity
+    guid: f86a727f610684348892f613e654c486
+  - enabled: 1
+    path: Assets/Scenes/Assignment 3/02_Level2_FortDinosaur.unity
+    guid: 74f170f5554648f4b83bb58ab9719e61
+  - enabled: 1
+    path: Assets/Scenes/Assignment 3/03_Level3_StoLuCamp.unity
+    guid: 180c23b717972c844ae9c77c8cd7e77d
+  - enabled: 1
+    path: Assets/Scenes/Assignment 3/04_TransitionCutscene.unity
+    guid: 65066260450a6f4418a6291cb23d4349
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

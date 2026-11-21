@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "id": "mansion-starter-ui",
+  "title": "Mansion Starter Interface",
+  "revision": "starter-r1",
+  "icons": {
+    "home": {
+      "file": "icons/home.png",
+      "width": 80,
+      "height": 80
+    },
+    "play": {
+      "file": "icons/play.png",
+      "width": 80,
+      "height": 80
+    },
+    "exit": {
+      "file": "icons/exit.png",
+      "width": 80,
+      "height": 80
+    },
+    "investigate": {
+      "file": "icons/investigate.png",
+      "width": 80,
+      "height": 80
+    },
+    "water": {
+      "file": "icons/water.png",
+      "width": 80,
+      "height": 80
+    },
+    "heat": {
+      "file": "icons/heat.png",
+      "width": 80,
+      "height": 80
+    },
+    "vault-locked": {
+      "file": "icons/vault-locked.png",
+      "width": 80,
+      "height": 80
+    },
+    "key": {
+      "file": "icons/key.png",
+      "width": 80,
+      "height": 80
+    },
+    "arrow-up": {
+      "file": "icons/arrow-up.png",
+      "width": 80,
+      "height": 80
+    },
+    "arrow-down": {
+      "file": "icons/arrow-down.png",
+      "width": 80,
+      "height": 80
+    },
+    "arrow-left": {
+      "file": "icons/arrow-left.png",
+      "width": 80,
+      "height": 80
+    },
+    "arrow-right": {
+      "file": "icons/arrow-right.png",
+      "width": 80,
+      "height": 80
+    }
+  },
+  "glyphs": {
+    "0": {
+      "file": "glyphs/0.png",
+      "width": 64,
+      "height": 64,
+      "advance": 39
+    },
+    "1": {
+      "file": "glyphs/1.png",
+      "width": 64,
+      "height": 64,
+      "advance": 30
+    },
+    "2": {
+      "file": "glyphs/2.png",
+      "width": 64,
+      "height": 64,
+      "advance": 38
+    },
+    "3": {
+      "file": "glyphs/3.png",
+      "width": 64,
+      "height": 64,
+      "advance": 38
+    },
+    "4": {
+      "file": "glyphs/4.png",
+      "width": 64,
+      "height": 64,
+      "advance": 39
+    },
+    "5": {
+      "file": "glyphs/5.png",
+      "width": 64,
+      "height": 64,
+      "advance": 39
+    },
+    "6": {
+      "file": "glyphs/6.png",
+      "width": 64,
+      "height": 64,
+      "advance": 40
+    },
+    "7": {
+      "file": "glyphs/7.png",
+      "width": 64,
+      "height": 64,
+      "advance": 37
+    },
+    "8": {
+      "file": "glyphs/8.png",
+      "width": 64,
+      "height": 64,
+      "advance": 40
+    },
+    "9": {
+      "file": "glyphs/9.png",
+      "width": 64,
+      "height": 64,
+      "advance": 39
+    },
+    ":": {
+      "file": "glyphs/colon.png",
+      "width": 64,
+      "height": 64,
+      "advance": 15
+    }
+  },
+  "pieces": {
+    "panel-dark": {
+      "file": "pieces/panel-dark.png",
+      "width": 512,
+      "height": 495,
+      "nineSlice": [
+        99,
+        102,
+        99,
+        102
+      ],
+      "slices": [
+        "slices/panel-dark-0-0.png",
+        "slices/panel-dark-0-1.png",
+        "slices/panel-dark-0-2.png",
+        "slices/panel-dark-1-0.png",
+        "slices/panel-dark-1-1.png",
+        "slices/panel-dark-1-2.png",
+        "slices/panel-dark-2-0.png",
+        "slices/panel-dark-2-1.png",
+        "slices/panel-dark-2-2.png"
+      ]
+    },
+    "button-default": {
+      "file": "pieces/button-default.png",
+      "width": 301,
+      "height": 111,
+      "nineSlice": [
+        38,
+        39,
+        38,
+        39
+      ],
+      "slices": [
+        "slices/button-default-0-0.png",
+        "slices/button-default-0-1.png",
+        "slices/button-default-0-2.png",
+        "slices/button-default-1-0.png",
+        "slices/button-default-1-1.png",
+        "slices/button-default-1-2.png",
+        "slices/button-default-2-0.png",
+        "slices/button-default-2-1.png",
+        "slices/button-default-2-2.png"
+      ]
+    },
+    "input-default": {
+      "file": "pieces/input-default.png",
+      "width": 243,
+      "height": 239,
+      "nineSlice": [
+        53,
+        53,
+        53,
+        53
+      ],
+      "slices": [
+        "slices/input-default-0-0.png",
+        "slices/input-default-0-1.png",
+        "slices/input-default-0-2.png",
+        "slices/input-default-1-0.png",
+        "slices/input-default-1-1.png",
+        "slices/input-default-1-2.png",
+        "slices/input-default-2-0.png",
+        "slices/input-default-2-1.png",
+        "slices/input-default-2-2.png"
+      ]
+    },
+    "meter-track": {
+      "file": "pieces/meter-track.png",
+      "width": 300,
+      "height": 74,
+      "nineSlice": [
+        25,
+        39,
+        25,
+        39
+      ],
+      "slices": [
+        "slices/meter-track-0-0.png",
+        "slices/meter-track-0-1.png",
+        "slices/meter-track-0-2.png",
+        "slices/meter-track-1-0.png",
+        "slices/meter-track-1-1.png",
+        "slices/meter-track-1-2.png",
+        "slices/meter-track-2-0.png",
+        "slices/meter-track-2-1.png",
+        "slices/meter-track-2-2.png"
+      ]
+    },
+    "meter-water": {
+      "file": "pieces/meter-water.png",
+      "width": 301,
+      "height": 74,
+      "nineSlice": [
+        25,
+        39,
+        25,
+        39
+      ],
+      "slices": [
+        "slices/meter-water-0-0.png",
+        "slices/meter-water-0-1.png",
+        "slices/meter-water-0-2.png",
+        "slices/meter-water-1-0.png",
+        "slices/meter-water-1-1.png",
+        "slices/meter-water-1-2.png",
+        "slices/meter-water-2-0.png",
+        "slices/meter-water-2-1.png",
+        "slices/meter-water-2-2.png"
+      ],
+      "fillFile": "pieces/meter-water-fill.png"
+    },
+    "meter-heat": {
+      "file": "pieces/meter-heat.png",
+      "width": 304,
+      "height": 74,
+      "nineSlice": [
+        25,
+        40,
+        25,
+        40
+      ],
+      "slices": [
+        "slices/meter-heat-0-0.png",
+        "slices/meter-heat-0-1.png",
+        "slices/meter-heat-0-2.png",
+        "slices/meter-heat-1-0.png",
+        "slices/meter-heat-1-1.png",
+        "slices/meter-heat-1-2.png",
+        "slices/meter-heat-2-0.png",
+        "slices/meter-heat-2-1.png",
+        "slices/meter-heat-2-2.png"
+      ],
+      "fillFile": "pieces/meter-heat-fill.png"
+    }
+  },
+  "font": {
+    "cellHeight": 64,
+    "baseline": 54
+  },
+  "artisticApproval": "candidate",
+  "sourcePackId": "mansion-interface"
+}

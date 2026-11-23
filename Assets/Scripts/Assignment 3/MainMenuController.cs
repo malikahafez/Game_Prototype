@@ -158,7 +158,7 @@ public class MainMenuController : MonoBehaviour
                 if (chapterTitleText != null)
                     chapterTitleText.text = "Act I: Cape Farewell Beach";
                 if (chapterDescriptionText != null)
-                    chapterDescriptionText.text = "You are on a fishing trip with a fellow vacationer, until you find a thermos with a mysterious story set way back in 1916";
+                    chapterDescriptionText.text = "You are on a fishing trip with a fellow vacationer, until you find a thermos with a mysterious story set way back in 1916.";
                 break;
 
             case 2:

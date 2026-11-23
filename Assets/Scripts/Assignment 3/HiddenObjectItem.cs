@@ -31,8 +31,9 @@ public class HiddenObjectItem : MonoBehaviour
         originalPosition = transform.position;
         originalRotation = transform.rotation;
 
-        if (category == ItemCategory.QuestListItem && HiddenObjectManager.Instance != null)
+        if ((category == ItemCategory.QuestListItem || category == ItemCategory.InventoryTool) && HiddenObjectManager.Instance != null)
         {
+            Debug.Log("registered hidden object quest item");
             HiddenObjectManager.Instance.RegisterQuestItem(this);
         }
     }
@@ -55,6 +56,8 @@ public class HiddenObjectItem : MonoBehaviour
         }
         else if (category == ItemCategory.InventoryTool)
         {
+            HiddenObjectManager.Instance.OnQuestItemCollected(this);
+
             if (InventoryAndCraftingSystem.Instance != null)
                 InventoryAndCraftingSystem.Instance.AddTool(this);
 
@@ -73,13 +76,23 @@ public class HiddenObjectItem : MonoBehaviour
     public void HighlightHintParticle()
     {
         if (hintGlowEffect != null)
-            hintGlowEffect.Play();
+        {
+            // hintGlowEffect.transform.position = transform.position + Vector3.up * 0.2f;
+            hintGlowEffect.gameObject.SetActive(true);
+            hintGlowEffect.Clear();
+            hintGlowEffect.Play(true);
+            Debug.Log($"[Hint] Playing particle effect on: {displayPrompt}");
+        }
+        else
+        {
+            Debug.LogWarning($"[Hint] No ParticleSystem assigned to Hint Glow Effect on: {displayPrompt}");
+        }
     }
 
     private IEnumerator SnapBackAnimation()
     {
         // Briefly lift the decoy item so the player sees they picked it up, then snap it back
-        transform.position = originalPosition + Vector3.up * 0.25f;
+        transform.position = originalPosition + Vector3.up * 0.5f;
         yield return new WaitForSeconds(0.35f);
         transform.position = originalPosition;
         transform.rotation = originalRotation;

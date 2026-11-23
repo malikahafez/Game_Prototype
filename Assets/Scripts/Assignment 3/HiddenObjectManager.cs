@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -21,15 +22,50 @@ public class HiddenObjectManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI penaltyCounterText;
     public TextMeshProUGUI coinsText;
+    public TextMeshProUGUI hintsText;
     public Transform objectListContainer;
     public GameObject listEntryPrefab; // Prefab with TextMeshProUGUI
     public Button requestHintButton;
+
+    [Header("Level End Screen UI")]
+    public GameObject levelEndPanel;
+    public TextMeshProUGUI timeBonusText;
+    public TextMeshProUGUI hintBonusText;
+    public TextMeshProUGUI penaltyDeductionText;
+    public TextMeshProUGUI totalScoreText;
+    public TextMeshProUGUI coinsEarnedText;
+    public Button nextLevelButton;
+    public Button mainMenuButton;
+
+    [Header("End-of-Level Cutscene & Scene Transitions")]
+    [Tooltip("Cutscene panel/recap or Timeline object that plays before loading the target scene.")]
+    public GameObject endCutscenePanel;
+    public TextMeshProUGUI cutsceneSubtitleText;
+    [TextArea(3, 6)]
+    public string levelEndCutsceneStory;
+    public float cutsceneDuration = 5.0f;
+    public Button skipCutsceneButton;
+    [Header("End-of-Level Cutscene Routing")]
+    public int levelActNumber = 1; // Set to 1 in Level 1, 2 in Level 2, 3 in Level 3
+    public string transitionCutsceneSceneName = "04_TransitionCutscene";
+    public string nextLevelSceneName = "02_Level2_FortDinosaur";
+    public string mainMenuSceneName = "00_MainMenu";
+
 
     [Header("Audio")]
     public AudioSource sfxSource;
     public AudioClip correctPickupClip;
     public AudioClip wrongPickupPenaltyClip;
     public AudioClip hintChimeClip;
+    public AudioClip levelCompleteClip;
+
+
+
+    [Header("Post-Dialogue Gameplay Start")]
+    [Tooltip("Set to 'metVacationer' in Level 1. Leave empty in Levels 2 & 3 to show HUD immediately.")]
+    public string startGameplayAfterFlag = "metVacationer";
+    public GameObject gameplayHUDPanel; // Assign GameplayHUDPanel here
+    public GameObject objectiveUI; // Assign GameplayHUDPanel here
 
     private List<HiddenObjectItem> activeQuestItems = new List<HiddenObjectItem>();
     private Dictionary<HiddenObjectItem, TextMeshProUGUI> uiEntries = new Dictionary<HiddenObjectItem, TextMeshProUGUI>();
@@ -37,13 +73,32 @@ public class HiddenObjectManager : MonoBehaviour
     private float elapsedTime = 0f;
     private bool timerRunning = true;
     private int hintsRemaining;
+    private bool hasStartedGameplay = false;
+    private string pendingDestinationScene;
+    private bool skipCutsceneRequested = false;
+
+    public bool IsLevelCompleteScreenActive => levelEndPanel != null && levelEndPanel.activeSelf;
 
     private void Awake()
     {
         Instance = this;
         hintsRemaining = maxHintsAllowed;
+
+        if (levelEndPanel != null) levelEndPanel.SetActive(false);
+        if (endCutscenePanel != null) endCutscenePanel.SetActive(false);
+
         if (requestHintButton != null)
             requestHintButton.onClick.AddListener(UseNPCHint);
+
+        // Wire Level End Screen buttons
+        if (nextLevelButton != null)
+            nextLevelButton.onClick.AddListener(() => TriggerEndCutsceneAndLoad(nextLevelSceneName));
+
+        if (mainMenuButton != null)
+            mainMenuButton.onClick.AddListener(() => TriggerEndCutsceneAndLoad(mainMenuSceneName));
+
+        if (skipCutsceneButton != null)
+            skipCutsceneButton.onClick.AddListener(() => skipCutsceneRequested = true);
     }
 
     private void Start()
@@ -51,14 +106,62 @@ public class HiddenObjectManager : MonoBehaviour
         if (StoryStateManager.Instance != null)
             StoryStateManager.Instance.ResetLevelCounters();
 
+        if (!string.IsNullOrEmpty(startGameplayAfterFlag) &&
+            (StoryStateManager.Instance == null || !StoryStateManager.Instance.HasFlag(startGameplayAfterFlag)))
+        {
+            hasStartedGameplay = false;
+            timerRunning = false;
+            if (StoryStateManager.Instance != null)
+                StoryStateManager.Instance.OnFlagSet += OnGameplayStartFlagSet;
+        }
+        else
+        {
+            hasStartedGameplay = true;
+            timerRunning = true;
+        }
+
+        RefreshHUDVisibility();
         UpdateHUD();
     }
+    private void OnDestroy()
+    {
+        if (StoryStateManager.Instance != null)
+            StoryStateManager.Instance.OnFlagSet -= OnGameplayStartFlagSet;
+    }
+    private void OnGameplayStartFlagSet(string flag)
+    {
+        if (flag == startGameplayAfterFlag)
+        {
+            hasStartedGameplay = true;
+            timerRunning = true;
+            RefreshHUDVisibility();
 
+            if (StoryStateManager.Instance != null)
+                StoryStateManager.Instance.OnFlagSet -= OnGameplayStartFlagSet;
+        }
+    }
+    /// <summary>
+    /// Central check: shows GameplayHUDPanel ONLY when the intro NPC has been spoken to,
+    /// no Dialogue is active, and the Pause Menu is closed.
+    /// </summary>
+    public void RefreshHUDVisibility()
+    {
+        if (gameplayHUDPanel == null || objectiveUI == null) return;
+
+        bool isDialogueOpen = DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive;
+        bool isPaused = PauseMenuController.Instance != null && PauseMenuController.Instance.IsPaused;
+
+        bool shouldShowHUD = hasStartedGameplay && !isDialogueOpen && !isPaused && !IsLevelCompleteScreenActive;
+        gameplayHUDPanel.SetActive(shouldShowHUD);
+        objectiveUI.SetActive(!isDialogueOpen && !isPaused && !IsLevelCompleteScreenActive);
+
+
+    }
     private void Update()
     {
         if (!timerRunning) return;
         if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive) return;
-
+        if (PauseMenuController.Instance != null && PauseMenuController.Instance.IsPaused) return;
         elapsedTime += Time.deltaTime;
         int minutes = Mathf.FloorToInt(elapsedTime / 60f);
         int seconds = Mathf.FloorToInt(elapsedTime % 60f);
@@ -105,7 +208,8 @@ public class HiddenObjectManager : MonoBehaviour
 
         activeQuestItems.Remove(item);
 
-        if (activeQuestItems.Count == 0 && !string.IsNullOrEmpty(levelCompletionFlag))
+        // if (activeQuestItems.Count == 0 && !string.IsNullOrEmpty(levelCompletionFlag))
+        if (activeQuestItems.Count == 0)
         {
             CompleteLevelSequence();
         }
@@ -127,6 +231,7 @@ public class HiddenObjectManager : MonoBehaviour
     /// </summary>
     public void UseNPCHint()
     {
+        Debug.Log("using hint");
         if (hintsRemaining <= 0 || activeQuestItems.Count == 0) return;
 
         if (StoryStateManager.Instance != null &&
@@ -151,32 +256,108 @@ public class HiddenObjectManager : MonoBehaviour
         if (StoryStateManager.Instance == null) return;
 
         if (coinsText != null)
-            coinsText.text = $"Coins: {StoryStateManager.Instance.coins} | Hints: {hintsRemaining}";
+            coinsText.text = $"{StoryStateManager.Instance.coins}";
+        if (hintsText != null)
+            hintsText.text = $"{hintsRemaining}";
 
         if (penaltyCounterText != null)
-            penaltyCounterText.text = $"Penalties: {StoryStateManager.Instance.penaltyCount}";
+            penaltyCounterText.text = $"{StoryStateManager.Instance.penaltyCount}";
     }
 
     private void CompleteLevelSequence()
     {
         timerRunning = false;
+
+        if (sfxSource != null && levelCompleteClip != null)
+            sfxSource.PlayOneShot(levelCompleteClip);
+
+        // 1. Score & Penalty Calculation
+        int minutes = Mathf.FloorToInt(elapsedTime / 60f);
+        int seconds = Mathf.FloorToInt(elapsedTime % 60f);
         int timeBonus = Mathf.Max(100, 1000 - Mathf.FloorToInt(elapsedTime * 2f));
         int hintBonus = hintsRemaining * 250;
 
         int penalties = StoryStateManager.Instance != null ? StoryStateManager.Instance.penaltyCount : 0;
         int penaltyDeduction = 0;
-        if (penalties >= 4 && penalties <= 9) penaltyDeduction = (penalties - 3) * 50;
-        else if (penalties >= 10) penaltyDeduction = (6 * 50) + ((penalties - 9) * 100);
+        if (penalties >= 4 && penalties <= 9)
+            penaltyDeduction = (penalties - 3) * 50;
+        else if (penalties >= 10)
+            penaltyDeduction = (6 * 50) + ((penalties - 9) * 100);
 
         int finalScore = Mathf.Max(0, timeBonus + hintBonus - penaltyDeduction);
         int coinsEarned = Mathf.Max(25, finalScore / 10);
 
+        // 2. Persist coins & completion flag immediately (so Main Menu Level Select unlocks the next level)
         if (StoryStateManager.Instance != null)
         {
             StoryStateManager.Instance.coins += coinsEarned;
-            StoryStateManager.Instance.SetFlag(levelCompletionFlag);
+            if (!string.IsNullOrEmpty(levelCompletionFlag))
+                StoryStateManager.Instance.SetFlag(levelCompletionFlag);
         }
 
-        Debug.Log($"[Level Complete] Score: {finalScore} | Coins Earned: {coinsEarned}");
+        // 3. Populate Level End Screen UI
+        if (timeBonusText != null)
+            timeBonusText.text = $"Time ({minutes:00}:{seconds:00}): +{timeBonus}";
+
+        if (hintBonusText != null)
+            hintBonusText.text = $"Unused Hints ({hintsRemaining}): +{hintBonus}";
+
+        if (penaltyDeductionText != null)
+            penaltyDeductionText.text = $"Misclick Penalties ({penalties}): -{penaltyDeduction}";
+
+        if (totalScoreText != null)
+            totalScoreText.text = $"Total Score: {finalScore}";
+
+        if (coinsEarnedText != null)
+            coinsEarnedText.text = $"Coins Earned: +{coinsEarned}";
+
+        // 4. Show Level End Panel & hide Gameplay HUD
+        if (levelEndPanel != null)
+            levelEndPanel.SetActive(true);
+
+        RefreshHUDVisibility();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    /// <summary>
+    /// Triggered by either "Next Level" or "Main Menu" on the Level End Screen.
+    /// Plays the level's end cutscene first, then loads the chosen destination scene.
+    /// </summary>
+    public void TriggerEndCutsceneAndLoad(string targetSceneName)
+    {
+        if (StoryStateManager.Instance != null)
+        {
+            StoryStateManager.Instance.cutsceneToPlay = levelActNumber;
+            StoryStateManager.Instance.postCutsceneDestinationScene = targetSceneName;
+        }
+
+        SceneManager.LoadScene(transitionCutsceneSceneName);
+    }
+    private IEnumerator PlayCutsceneThenLoadRoutine()
+    {
+        if (levelEndPanel != null)
+            levelEndPanel.SetActive(false);
+
+        if (endCutscenePanel != null)
+        {
+            endCutscenePanel.SetActive(true);
+            if (cutsceneSubtitleText != null)
+                cutsceneSubtitleText.text = levelEndCutsceneStory;
+        }
+
+        skipCutsceneRequested = false;
+        float timer = 0f;
+
+        while (timer < cutsceneDuration && !skipCutsceneRequested)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(pendingDestinationScene);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using StarterAssets;
 
 /// <summary>
 /// Manages the in-game Pause Menu (Resume, Restart Level, Return to Main Menu, Quit,
@@ -9,6 +10,9 @@ using UnityEngine.UI;
 public class PauseMenuController : MonoBehaviour
 {
     public static PauseMenuController Instance { get; private set; }
+
+    [Header("Reticle UI")]
+    public GameObject reticle;
 
     [Header("Pause UI Panels")]
     public GameObject pauseMenuPanel;
@@ -73,7 +77,7 @@ public class PauseMenuController : MonoBehaviour
         {
             FirstPersonExplorerController player = FindFirstObjectByType<FirstPersonExplorerController>();
             if (player != null)
-                mouseSensitivitySlider.value = player.mouseSensitivity;
+                mouseSensitivitySlider.value = player.RotationSpeed;
 
             mouseSensitivitySlider.onValueChanged.AddListener(SetMouseSensitivity);
         }
@@ -107,6 +111,13 @@ public class PauseMenuController : MonoBehaviour
 
         if (pauseMenuPanel != null)
             pauseMenuPanel.SetActive(true);
+        if (HiddenObjectManager.Instance != null)
+            HiddenObjectManager.Instance.RefreshHUDVisibility();
+
+        if (reticle != null)
+        {
+            reticle.SetActive(false);
+        }
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -123,14 +134,19 @@ public class PauseMenuController : MonoBehaviour
 
         if (settingsSubPanel != null) settingsSubPanel.SetActive(false);
         if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
+        if (HiddenObjectManager.Instance != null)
+            HiddenObjectManager.Instance.RefreshHUDVisibility();
 
-        // Keep cursor unlocked if a Dialogue box or Lore Card was already open when paused
-        bool keepCursorUnlocked =
+        bool isModalOpen =
             (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive) ||
             (InventoryAndCraftingSystem.Instance != null && InventoryAndCraftingSystem.Instance.IsInspectingUI);
 
-        Cursor.lockState = keepCursorUnlocked ? CursorLockMode.None : CursorLockMode.Locked;
-        Cursor.visible = keepCursorUnlocked;
+        if (reticle != null)
+            reticle.SetActive(!isModalOpen);
+
+        // Keep cursor unlocked & visible during gameplay so the player can click HUD buttons (Hints, Pause, Tabs)
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     /// <summary>
@@ -183,7 +199,7 @@ public class PauseMenuController : MonoBehaviour
     {
         FirstPersonExplorerController player = FindFirstObjectByType<FirstPersonExplorerController>();
         if (player != null)
-            player.mouseSensitivity = sensitivity;
+            player.RotationSpeed = sensitivity;
     }
 
     public void QuitGame()

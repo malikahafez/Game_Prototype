@@ -84,6 +84,17 @@ public class HiddenObjectManager : MonoBehaviour
     private List<HiddenObjectItem> activeQuestItems = new List<HiddenObjectItem>();
     private Dictionary<HiddenObjectItem, TextMeshProUGUI> uiEntries = new Dictionary<HiddenObjectItem, TextMeshProUGUI>();
 
+    [Header("Level 2 Multi-Phase & Count List Settings")]
+    public string phase2TriggerFlag = "discoveredLysKidnapping"; // Unlocks Jungle Gate & spawns cloth trail
+    public GameObject jungleTrailGroup;                        // Parent GameObject holding all Jungle cloth pieces (disabled at start)
+    public string countItemID = "TornCloth";                   // Item ID used by all jungle cloth pieces
+    public string countItemDisplayLabel = "Torn Cloth Pieces";
+
+    private int totalCountItems = 0;
+    private int collectedCountItems = 0;
+    private TextMeshProUGUI countItemUIEntry;
+
+
     private float elapsedTime = 0f;
     private bool timerRunning = true;
     private int hintsRemaining;
@@ -119,6 +130,12 @@ public class HiddenObjectManager : MonoBehaviour
     {
         if (StoryStateManager.Instance != null)
             StoryStateManager.Instance.ResetLevelCounters();
+        // Call this inside Start() right after ResetLevelCounters():
+        if (jungleTrailGroup != null)
+            jungleTrailGroup.SetActive(false);
+
+        if (!string.IsNullOrEmpty(phase2TriggerFlag) && StoryStateManager.Instance != null)
+            StoryStateManager.Instance.OnFlagSet += OnPhase2FlagTriggered;
 
         if (!string.IsNullOrEmpty(startGameplayAfterFlag) &&
             (StoryStateManager.Instance == null || !StoryStateManager.Instance.HasFlag(startGameplayAfterFlag)))
@@ -191,6 +208,19 @@ public class HiddenObjectManager : MonoBehaviour
         if (activeQuestItems.Contains(item)) return;
         activeQuestItems.Add(item);
 
+        if (!string.IsNullOrEmpty(countItemID) && item.itemID == countItemID)
+        {
+            totalCountItems++;
+            if (countItemUIEntry == null && listEntryPrefab != null && objectListContainer != null)
+            {
+                GameObject entryObj = Instantiate(listEntryPrefab, objectListContainer);
+                countItemUIEntry = entryObj.GetComponentInChildren<TextMeshProUGUI>();
+            }
+            if (countItemUIEntry != null)
+                countItemUIEntry.text = $"{countItemDisplayLabel}: {collectedCountItems}/{totalCountItems}";
+            return;
+        }
+
         if (listEntryPrefab != null && objectListContainer != null)
         {
             GameObject entryObj = Instantiate(listEntryPrefab, objectListContainer);
@@ -215,6 +245,21 @@ public class HiddenObjectManager : MonoBehaviour
         {
             label.fontStyle = FontStyles.Strikethrough;
             label.color = new Color(0.4f, 0.4f, 0.4f, 0.6f);
+        }
+        if (!string.IsNullOrEmpty(countItemID) && item.itemID == countItemID)
+        {
+            collectedCountItems++;
+            if (countItemUIEntry != null)
+            {
+                countItemUIEntry.text = $"{countItemDisplayLabel}: {collectedCountItems}/{totalCountItems}";
+                if (collectedCountItems >= totalCountItems)
+                {
+                    countItemUIEntry.fontStyle = FontStyles.Strikethrough;
+                    countItemUIEntry.color = new Color(0.4f, 0.4f, 0.4f, 0.6f);
+                    if (StoryStateManager.Instance != null)
+                        StoryStateManager.Instance.SetFlag("allClothPiecesFound");
+                }
+            }
         }
 
         if (!string.IsNullOrEmpty(item.flagToSetOnPickup) && StoryStateManager.Instance != null)
@@ -287,6 +332,15 @@ public class HiddenObjectManager : MonoBehaviour
 
         if (penaltyCounterText != null)
             penaltyCounterText.text = $"{StoryStateManager.Instance.penaltyCount}";
+    }
+
+    private void OnPhase2FlagTriggered(string flag)
+    {
+        if (flag == phase2TriggerFlag && jungleTrailGroup != null)
+        {
+            jungleTrailGroup.SetActive(true);
+            StoryStateManager.Instance.OnFlagSet -= OnPhase2FlagTriggered;
+        }
     }
 
     private void CompleteLevelSequence()

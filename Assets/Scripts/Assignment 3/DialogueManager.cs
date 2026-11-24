@@ -37,6 +37,10 @@ public class DialogueManager : MonoBehaviour
     [Tooltip("Optional Cinemachine Virtual Camera (or secondary Camera) that frames the NPC during dialogue.")]
     public GameObject dialogueCutsceneCamera;
 
+    [Header("NPC Animation")]
+    [Tooltip("Drag the NPC's Animator here (or assign dynamically per NPC).")]
+    public Animator activeNpcAnimator;
+    public string talkingBoolParameter = "isTalking";
 
 
     public bool IsDialogueActive => dialoguePanel != null && dialoguePanel.activeSelf;
@@ -76,6 +80,8 @@ public class DialogueManager : MonoBehaviour
 
         currentLineIndex = 0;
         dialoguePanel.SetActive(true);
+        if (activeNpcAnimator != null)
+            activeNpcAnimator.SetBool(talkingBoolParameter, true);
         if (HiddenObjectManager.Instance != null)
             HiddenObjectManager.Instance.RefreshHUDVisibility();
         // Inside StartDialogue(DialogueData data), right after dialoguePanel.SetActive(true):
@@ -143,6 +149,8 @@ public class DialogueManager : MonoBehaviour
     {
 
         dialoguePanel.SetActive(false);
+        if (activeNpcAnimator != null)
+            activeNpcAnimator.SetBool(talkingBoolParameter, false);
         if (HiddenObjectManager.Instance != null)
             HiddenObjectManager.Instance.RefreshHUDVisibility();
         // Inside EndDialogue(), right after dialoguePanel.SetActive(false):

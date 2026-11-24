@@ -28,6 +28,7 @@ public class NarrativeTriggerAndTransition : MonoBehaviour
     [TextArea(3, 6)]
     public string transitionRecapMessage;
 
+    public Animator npcAnimator;
     private bool hasFired = false;
 
     private void OnTriggerEnter(Collider other)
@@ -60,6 +61,7 @@ public class NarrativeTriggerAndTransition : MonoBehaviour
 
         if (dialogueToPlay != null && DialogueManager.Instance != null)
         {
+            DialogueManager.Instance.activeNpcAnimator = npcAnimator;
             DialogueManager.Instance.StartDialogue(dialogueToPlay);
         }
 

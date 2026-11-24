@@ -18,6 +18,14 @@ public class HiddenObjectManager : MonoBehaviour
     public int maxHintsAllowed = 3;
     public int hintCoinCost = 25;
 
+    [Header("Time Bonus Scoring")]
+    [Tooltip("Finishing at or under this time (in seconds) awards the full perfect time bonus.")]
+    public float parTimeSeconds = 120f;      // e.g., 2 minutes = perfect score
+    [Tooltip("Maximum time (in seconds) after which only the minimum bonus is awarded.")]
+    public float maxTimeSeconds = 480f;      // e.g., 8 minutes = floor score
+    public int maxTimeBonus = 1000;          // Perfect score bonus
+    public int minTimeBonus = 100;           // Minimum guaranteed bonus
+
     [Header("HUD References")]
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI penaltyCounterText;
@@ -37,6 +45,8 @@ public class HiddenObjectManager : MonoBehaviour
     public Button nextLevelButton;
     public Button mainMenuButton;
 
+
+
     [Header("End-of-Level Cutscene & Scene Transitions")]
     [Tooltip("Cutscene panel/recap or Timeline object that plays before loading the target scene.")]
     public GameObject endCutscenePanel;
@@ -45,6 +55,7 @@ public class HiddenObjectManager : MonoBehaviour
     public string levelEndCutsceneStory;
     public float cutsceneDuration = 5.0f;
     public Button skipCutsceneButton;
+
     [Header("End-of-Level Cutscene Routing")]
     public int levelActNumber = 1; // Set to 1 in Level 1, 2 in Level 2, 3 in Level 3
     public string transitionCutsceneSceneName = "04_TransitionCutscene";
@@ -67,6 +78,9 @@ public class HiddenObjectManager : MonoBehaviour
     public GameObject gameplayHUDPanel; // Assign GameplayHUDPanel here
     public GameObject objectiveUI; // Assign GameplayHUDPanel here
 
+    [Header("Penalty Dialogue")]
+    public DialogueData penaltyWarningDialogue;
+    public bool triggerOnlyOnFirstDeduction = true; // Fires on the 4th misclick when penalties start deducting points
     private List<HiddenObjectItem> activeQuestItems = new List<HiddenObjectItem>();
     private Dictionary<HiddenObjectItem, TextMeshProUGUI> uiEntries = new Dictionary<HiddenObjectItem, TextMeshProUGUI>();
 
@@ -221,7 +235,18 @@ public class HiddenObjectManager : MonoBehaviour
             sfxSource.PlayOneShot(wrongPickupPenaltyClip);
 
         if (StoryStateManager.Instance != null)
+        {
             StoryStateManager.Instance.RegisterWrongPickup();
+
+            // Trigger penalty dialogue either on the 4th misclick (when deductions start) or every misclick
+            if (penaltyWarningDialogue != null && DialogueManager.Instance != null)
+            {
+                if (!triggerOnlyOnFirstDeduction || StoryStateManager.Instance.penaltyCount == 4)
+                {
+                    DialogueManager.Instance.StartDialogue(penaltyWarningDialogue);
+                }
+            }
+        }
 
         UpdateHUD();
     }
@@ -274,8 +299,12 @@ public class HiddenObjectManager : MonoBehaviour
         // 1. Score & Penalty Calculation
         int minutes = Mathf.FloorToInt(elapsedTime / 60f);
         int seconds = Mathf.FloorToInt(elapsedTime % 60f);
-        int timeBonus = Mathf.Max(100, 1000 - Mathf.FloorToInt(elapsedTime * 2f));
-        int hintBonus = hintsRemaining * 250;
+        // int timeBonus = Mathf.Max(100, 1000 - Mathf.FloorToInt(elapsedTime * 2f));
+        // Calculate Time Bonus: 100% of maxTimeBonus if elapsedTime <= parTimeSeconds,
+        // scaling smoothly down to minTimeBonus as elapsedTime approaches maxTimeSeconds.
+        float overtimeProgress = Mathf.InverseLerp(parTimeSeconds, maxTimeSeconds, elapsedTime);
+        int timeBonus = Mathf.RoundToInt(Mathf.Lerp(maxTimeBonus, minTimeBonus, overtimeProgress)); int
+                 hintBonus = hintsRemaining * 250;
 
         int penalties = StoryStateManager.Instance != null ? StoryStateManager.Instance.penaltyCount : 0;
         int penaltyDeduction = 0;
@@ -297,19 +326,19 @@ public class HiddenObjectManager : MonoBehaviour
 
         // 3. Populate Level End Screen UI
         if (timeBonusText != null)
-            timeBonusText.text = $"Time ({minutes:00}:{seconds:00}): +{timeBonus}";
+            timeBonusText.text = $"+{timeBonus}";
 
         if (hintBonusText != null)
-            hintBonusText.text = $"Unused Hints ({hintsRemaining}): +{hintBonus}";
+            hintBonusText.text = $"+{hintBonus}";
 
         if (penaltyDeductionText != null)
-            penaltyDeductionText.text = $"Misclick Penalties ({penalties}): -{penaltyDeduction}";
+            penaltyDeductionText.text = $"-{penaltyDeduction}";
 
         if (totalScoreText != null)
-            totalScoreText.text = $"Total Score: {finalScore}";
+            totalScoreText.text = $"{finalScore}";
 
         if (coinsEarnedText != null)
-            coinsEarnedText.text = $"Coins Earned: +{coinsEarned}";
+            coinsEarnedText.text = $"+{coinsEarned}";
 
         // 4. Show Level End Panel & hide Gameplay HUD
         if (levelEndPanel != null)

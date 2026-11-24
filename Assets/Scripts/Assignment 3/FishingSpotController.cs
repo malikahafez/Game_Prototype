@@ -26,7 +26,8 @@ public class FishingSpotController : MonoBehaviour
 
     [Header("Thermos Reward")]
     [Tooltip("The 3D Thermos prop on the shore (set inactive at scene start).")]
-    public GameObject shoreThermosObject;
+    public GameObject seaThermosObject;
+    public Transform shoreLandingPoint; // Empty GameObject placed on the shore where the thermos lands
     [Tooltip("Optional particle splash/sparkle when the thermos lands on the shore.")]
     public ParticleSystem shoreRevealEffect;
 
@@ -53,8 +54,13 @@ public class FishingSpotController : MonoBehaviour
         if (interactionPromptUI != null)
             interactionPromptUI.SetActive(false);
 
-        if (shoreThermosObject != null)
-            shoreThermosObject.SetActive(false);
+        if (seaThermosObject != null)
+        {
+            seaThermosObject.SetActive(true);
+            // Disable collider while it's out in the sea so it can't be picked up before fishing
+            Collider col = seaThermosObject.GetComponent<Collider>();
+            if (col != null) col.enabled = false;
+        }
     }
 
     private void Update()
@@ -131,9 +137,18 @@ public class FishingSpotController : MonoBehaviour
             handFishingRodModel.SetActive(false);
 
         // 4. Reveal the Thermos on the shore for the player to pick up
-        if (shoreThermosObject != null)
+        if (seaThermosObject != null)
         {
-            shoreThermosObject.SetActive(true);
+            if (shoreLandingPoint != null)
+            {
+                seaThermosObject.transform.position = shoreLandingPoint.position;
+                seaThermosObject.transform.rotation = shoreLandingPoint.rotation;
+            }
+
+            // Re-enable collider so the player can now pick it up on the shore
+            Collider col = seaThermosObject.GetComponent<Collider>();
+            if (col != null) col.enabled = true;
+
             if (shoreRevealEffect != null)
                 shoreRevealEffect.Play();
         }

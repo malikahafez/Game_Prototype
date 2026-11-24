@@ -16,7 +16,7 @@ MonoBehaviour:
   lines:
   - speakerName: Vacationer
     speakerPortrait: {fileID: 5495316049830206490, guid: af3e03d075a8238498e997b39f4b5410, type: 3}
-    text: I think I spotted the thermos somewhere on the shoreline, near some supplies.
+    text: I think I spotted the thermos floating near the shoreline, near some supplies.
     voiceOrFoleyClip: {fileID: 0}
   highPenaltyLines: []
   flagToSetWhenFinished: 

@@ -2,24 +2,24 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-// Central persistent singleton that tracks story flags, player coins,
-// misclick penalties, and hint usage across all scenes.
-
 public class StoryStateManager : MonoBehaviour
 {
     public static StoryStateManager Instance { get; private set; }
 
-    private HashSet<string> storyFlags = new HashSet<string>();
-    public event Action<string> OnFlagSet;
+    [Header("Debug / Inspector Starting Flags")]
+    [Tooltip("Add story flags here in the Inspector (e.g. 'act1Complete', 'metVacationer') to test starting directly from any level.")]
+    [SerializeField] private List<string> initialDebugFlags = new List<string>();
 
-    [Header("Economy & Penalty Tracking")]
+    [Header("Player Progress & Economy")]
     public int coins = 100;
     public int penaltyCount = 0;
-    public int hintsUsedCount = 0;
 
-    [HideInInspector] public int cutsceneToPlay = 1; // 1 = After Level 1, 2 = After Level 2, 3 = After Level 3
+    [HideInInspector] public int cutsceneToPlay = 1;
     [HideInInspector] public string postCutsceneDestinationScene = "02_Level2_FortDinosaur";
+
+    private HashSet<string> storyFlags = new HashSet<string>();
+
+    public event Action<string> OnFlagSet;
 
     private void Awake()
     {
@@ -28,52 +28,72 @@ public class StoryStateManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        // Populate the runtime HashSet from the Inspector list
+        foreach (string flag in initialDebugFlags)
+        {
+            if (!string.IsNullOrWhiteSpace(flag))
+            {
+                storyFlags.Add(flag.Trim());
+            }
+        }
     }
-
-
-    // Sets a narrative flag and notifies listeners (ObjectiveManager, doors, NPCs).
 
     public void SetFlag(string flag)
     {
-        if (string.IsNullOrEmpty(flag)) return;
+        if (string.IsNullOrWhiteSpace(flag)) return;
 
         if (storyFlags.Add(flag))
         {
-            Debug.Log($"[StoryState] Flag set: {flag}");
             OnFlagSet?.Invoke(flag);
         }
     }
 
-    public bool HasFlag(string flag) => storyFlags.Contains(flag);
+    public bool HasFlag(string flag)
+    {
+        return !string.IsNullOrWhiteSpace(flag) && storyFlags.Contains(flag);
+    }
 
-
-    // Resets per-level counters when entering a new scene.
+    public void RemoveFlag(string flag)
+    {
+        if (!string.IsNullOrWhiteSpace(flag))
+        {
+            storyFlags.Remove(flag);
+        }
+    }
 
     public void ResetLevelCounters()
     {
         penaltyCount = 0;
-        hintsUsedCount = 0;
     }
 
     public void RegisterWrongPickup()
     {
         penaltyCount++;
-        if (penaltyCount == 4)
-        {
-            SetFlag("highPenaltyWarning");
-        }
     }
 
     public bool TrySpendCoinsForHint(int cost)
     {
-        if (coins >= cost)
-        {
-            coins -= cost;
-            hintsUsedCount++;
-            return true;
-        }
-        return false;
+        if (coins < cost) return false;
+        coins -= cost;
+        return true;
     }
+
+#if UNITY_EDITOR
+    // Allows adding flags live in the Inspector while in Play Mode
+    [ContextMenu("Sync Inspector Debug Flags to HashSet")]
+    private void SyncDebugFlagsInPlayMode()
+    {
+        foreach (string flag in initialDebugFlags)
+        {
+            if (!string.IsNullOrWhiteSpace(flag))
+            {
+                SetFlag(flag.Trim());
+            }
+        }
+    }
+#endif
 }

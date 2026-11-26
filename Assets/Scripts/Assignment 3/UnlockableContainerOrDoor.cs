@@ -3,7 +3,8 @@ using UnityEngine;
 
 /// <summary>
 /// Opens doors or wooden crates when the player either holds a required tool/flag
-/// (e.g., "Crowbar", "RustyKey", or "discoveredLysKidnapping") and presses [E].
+/// (e.g., "Crowbar", "DwellingKey", or "discoveredLysKidnapping") and presses [E].
+/// Displays distinct locked messages depending on which requirement is missing.
 /// </summary>
 public class UnlockableContainerOrDoor : MonoBehaviour
 {
@@ -22,9 +23,17 @@ public class UnlockableContainerOrDoor : MonoBehaviour
     [Header("Feedback & Narrative")]
     public GameObject promptUI;
     public TextMeshProUGUI promptText;
-    public string lockedMessage = "Jammed shut. Need a Crowbar to pry open.";
     public string unlockedPrompt = "Press [E] to Open";
-    public DialogueData lockedDialogue;
+
+    [Tooltip("Shown when the player is missing the required Tool (e.g. Crowbar or Key).")]
+    public string missingToolMessage = "Jammed shut. Need a Crowbar to pry open.";
+    [Tooltip("Shown when the player hasn't reached the required story milestone yet.")]
+    public string missingFlagMessage = "The gate is barred. Check on Lys before heading into the jungle.";
+
+    public DialogueData missingToolDialogue;
+    public DialogueData missingFlagDialogue;
+
+    [Header("Audio")]
     public AudioSource sfxSource;
     public AudioClip openClip;
 
@@ -46,24 +55,56 @@ public class UnlockableContainerOrDoor : MonoBehaviour
             {
                 OpenObject();
             }
-            else if (lockedDialogue != null && DialogueManager.Instance != null)
+            else
             {
-                DialogueManager.Instance.StartDialogue(lockedDialogue);
+                DialogueData dialogueToPlay = GetMissingRequirementDialogue();
+                if (dialogueToPlay != null && DialogueManager.Instance != null)
+                {
+                    DialogueManager.Instance.StartDialogue(dialogueToPlay);
+                }
             }
         }
     }
 
+    private bool HasRequiredTool()
+    {
+        return string.IsNullOrEmpty(requiredToolID) ||
+               (InventoryAndCraftingSystem.Instance != null &&
+                InventoryAndCraftingSystem.Instance.HasTool(requiredToolID));
+    }
+
+    private bool HasRequiredFlag()
+    {
+        return string.IsNullOrEmpty(requiredStoryFlag) ||
+               (StoryStateManager.Instance != null &&
+                StoryStateManager.Instance.HasFlag(requiredStoryFlag));
+    }
+
     private bool CanOpen()
     {
-        bool toolOK = string.IsNullOrEmpty(requiredToolID) ||
-                      (InventoryAndCraftingSystem.Instance != null &&
-                       InventoryAndCraftingSystem.Instance.HasTool(requiredToolID));
+        return HasRequiredTool() && HasRequiredFlag();
+    }
 
-        bool flagOK = string.IsNullOrEmpty(requiredStoryFlag) ||
-                      (StoryStateManager.Instance != null &&
-                       StoryStateManager.Instance.HasFlag(requiredStoryFlag));
+    private string GetPromptMessage()
+    {
+        if (!HasRequiredFlag())
+            return missingFlagMessage;
 
-        return toolOK && flagOK;
+        if (!HasRequiredTool())
+            return missingToolMessage;
+
+        return unlockedPrompt;
+    }
+
+    private DialogueData GetMissingRequirementDialogue()
+    {
+        if (!HasRequiredFlag())
+            return missingFlagDialogue;
+
+        if (!HasRequiredTool())
+            return missingToolDialogue;
+
+        return null;
     }
 
     private void OpenObject()
@@ -92,7 +133,7 @@ public class UnlockableContainerOrDoor : MonoBehaviour
         {
             promptUI.SetActive(true);
             if (promptText != null)
-                promptText.text = CanOpen() ? unlockedPrompt : lockedMessage;
+                promptText.text = GetPromptMessage();
         }
     }
 

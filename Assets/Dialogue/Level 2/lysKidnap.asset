@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fa61a36d07c29f49942915a8c641e9e, type: 3}
+  m_Name: lysKidnap
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  requiredFlag: 
+  lines:
+  - speakerName: Bowen (You)
+    speakerPortrait: {fileID: 8957324059118975939, guid: bb48e51edd5e74f4cbc8c3e0f556df70, type: 3}
+    text: Overturned furniture... torn fabric... the Sto-Lu took Lys into the jungle!
+    voiceOrFoleyClip: {fileID: 0}
+  - speakerName: Bowen (You)
+    speakerPortrait: {fileID: 8957324059118975939, guid: bb48e51edd5e74f4cbc8c3e0f556df70, type: 3}
+    text: I must exit through the main gate and go after her!
+    voiceOrFoleyClip: {fileID: 0}
+  highPenaltyLines: []
+  flagToSetWhenFinished: 

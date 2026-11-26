@@ -1,7 +1,9 @@
+using Unity.Cinemachine;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 [System.Serializable]
 public class CraftingRecipe
@@ -56,7 +58,7 @@ public class InventoryAndCraftingSystem : MonoBehaviour
     public Button closeLoreButton;
 
     [Header("Telescope Settings (Level 2)")]
-    public Camera playerCamera;
+    public CinemachineCamera playerVirtualCamera; // Drag PlayerFollowCamera here
     public GameObject telescopeOverlayUI;
     public float normalFOV = 60f;
     public float telescopeFOV = 22f;
@@ -264,11 +266,16 @@ public class InventoryAndCraftingSystem : MonoBehaviour
     private void ToggleTelescope()
     {
         IsTelescopeActive = !IsTelescopeActive;
-        if (playerCamera != null)
-            playerCamera.fieldOfView = IsTelescopeActive ? telescopeFOV : normalFOV;
+        if (playerVirtualCamera != null)
+        {
+            var lens = playerVirtualCamera.Lens;
+            lens.FieldOfView = IsTelescopeActive ? telescopeFOV : normalFOV;
+            playerVirtualCamera.Lens = lens;
+        }
         if (telescopeOverlayUI != null)
             telescopeOverlayUI.SetActive(IsTelescopeActive);
     }
+
 
     public void TryIgniteLantern()
     {

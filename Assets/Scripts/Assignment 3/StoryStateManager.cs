@@ -69,6 +69,22 @@ public class StoryStateManager : MonoBehaviour
     {
         penaltyCount = 0;
     }
+    /// <summary>
+    /// Clears per-level progression flags so a level can be replayed cleanly,
+    /// while preserving act completion flags (act1Complete, act2Complete, gameComplete) and coins.
+    /// </summary>
+    public void ResetLevelFlags(IEnumerable<string> flagsToClear)
+    {
+        if (flagsToClear == null) return;
+
+        foreach (string flag in flagsToClear)
+        {
+            if (!string.IsNullOrWhiteSpace(flag))
+            {
+                storyFlags.Remove(flag.Trim());
+            }
+        }
+    }
 
     public void RegisterWrongPickup()
     {

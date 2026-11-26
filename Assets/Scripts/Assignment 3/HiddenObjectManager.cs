@@ -15,8 +15,13 @@ public class HiddenObjectManager : MonoBehaviour
 
     [Header("Level Settings")]
     public string levelCompletionFlag = "act1Complete";
+    [Tooltip("Optional: Level will NOT end even when activeQuestItems reaches 0 unless this story flag is set (e.g. 'allClothPiecesFound' in Level 2). Leave empty in Levels 1 & 3.")]
+    public string requiredFlagToCompleteLevel = "";
     public int maxHintsAllowed = 3;
     public int hintCoinCost = 25;
+    [Header("Replayability / Level-Local Flags")]
+    [Tooltip("Flags cleared automatically when this level loads so replaying the level resets puzzles and triggers.")]
+    public List<string> levelSpecificFlags = new List<string>();
 
     [Header("Time Bonus Scoring")]
     [Tooltip("Finishing at or under this time (in seconds) awards the full perfect time bonus.")]
@@ -129,7 +134,10 @@ public class HiddenObjectManager : MonoBehaviour
     private void Start()
     {
         if (StoryStateManager.Instance != null)
+        {
             StoryStateManager.Instance.ResetLevelCounters();
+            StoryStateManager.Instance.ResetLevelFlags(levelSpecificFlags);
+        }
         // Call this inside Start() right after ResetLevelCounters():
         if (jungleTrailGroup != null)
             jungleTrailGroup.SetActive(false);
@@ -266,9 +274,12 @@ public class HiddenObjectManager : MonoBehaviour
             StoryStateManager.Instance.SetFlag(item.flagToSetOnPickup);
 
         activeQuestItems.Remove(item);
+        bool requiredMilestoneMet = string.IsNullOrEmpty(requiredFlagToCompleteLevel) ||
+                                    (StoryStateManager.Instance != null &&
+                                     StoryStateManager.Instance.HasFlag(requiredFlagToCompleteLevel));
 
-        // if (activeQuestItems.Count == 0 && !string.IsNullOrEmpty(levelCompletionFlag))
-        if (activeQuestItems.Count == 0)
+        // Only finish the level if all currently registered items are collected AND the required phase milestone is met
+        if (activeQuestItems.Count == 0 && requiredMilestoneMet)
         {
             CompleteLevelSequence();
         }

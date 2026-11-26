@@ -3421,7 +3421,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: af7dc3af842f4824ca0ec747ea312982, type: 2}
   hintGlowEffect: {fileID: 716005897}
 --- !u!65 &309982596
 BoxCollider:
@@ -5659,6 +5659,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5070483172172011771, guid: 54890d31c328bbd4ab04678d02943611, type: 3}
   m_PrefabInstance: {fileID: 609425987}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &609425989 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5770140020988816606, guid: 54890d31c328bbd4ab04678d02943611, type: 3}
+  m_PrefabInstance: {fileID: 609425987}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &614632690
 GameObject:
   m_ObjectHideFlags: 0
@@ -6291,7 +6296,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: 7c60a0716fc841146a3be5f1953e0cdd, type: 2}
   hintGlowEffect: {fileID: 764963267}
 --- !u!65 &652016932
 BoxCollider:
@@ -9244,7 +9249,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: cd2adca502b1a484f9daa49a24d8ed68, type: 2}
   hintGlowEffect: {fileID: 1830680078}
 --- !u!65 &926388430
 BoxCollider:
@@ -11037,8 +11042,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HiddenObjectManager
   levelCompletionFlag: act2Complete
+  requiredFlagToCompleteLevel: allClothPiecesFound
   maxHintsAllowed: 4
   hintCoinCost: 25
+  levelSpecificFlags:
+  - craftedTelescope
+  - foundLysComb
+  - discoveredLysKidnapping
+  - allClothPiecesFound
   parTimeSeconds: 240
   maxTimeSeconds: 600
   maxTimeBonus: 1000
@@ -12411,7 +12422,7 @@ MonoBehaviour:
   itemIcon: {fileID: -4108591026855716163, guid: fef48ecc01f40b348b1631118bcadb26, type: 3}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: c612c5ddfbf0b884d8cf860d2f2efb64, type: 2}
   hintGlowEffect: {fileID: 597176807}
 --- !u!65 &1184812833
 BoxCollider:
@@ -13619,7 +13630,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: 4a1e8c08b4d7f0745b6785a9e337e14c, type: 2}
   hintGlowEffect: {fileID: 604844822}
 --- !u!65 &1311468100
 BoxCollider:
@@ -13742,7 +13753,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2bf43eb951e173f409fc9b76459d2a74, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.7640038
+      value: -2.425
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2bf43eb951e173f409fc9b76459d2a74, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13828,7 +13839,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: 914ec2eae551ee34d9a8fdd9b10892c3, type: 2}
   hintGlowEffect: {fileID: 597176807}
 --- !u!1001 &1331092046
 PrefabInstance:
@@ -15469,7 +15480,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   requiredFlagToCollect: 
   flagToSetOnPickup: foundLysComb
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: e41d41cec8e55b3419656455d087c55a, type: 2}
   hintGlowEffect: {fileID: 435202705}
 --- !u!4 &1457929782 stripped
 Transform:
@@ -16310,7 +16321,7 @@ MonoBehaviour:
   itemIcon: {fileID: 7398687956713181485, guid: 721096798000abc42857bf557676cea0, type: 3}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: 2469fce7f6aa57a49bea0260c5995f84, type: 2}
   hintGlowEffect: {fileID: 597176807}
 --- !u!65 &1493988070
 BoxCollider:
@@ -17994,7 +18005,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: 3ba32d6bcc98c584784e71981b60b6e4, type: 2}
   hintGlowEffect: {fileID: 1646584598}
 --- !u!65 &1643658549
 BoxCollider:
@@ -18489,7 +18500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StoryStateManager
   initialDebugFlags:
   - act1Complete
-  coins: 100
+  coins: 1000
   penaltyCount: 0
   cutsceneToPlay: 1
   postCutsceneDestinationScene: 02_Level2_FortDinosaur
@@ -20102,7 +20113,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: 51907660802737e419fb0cb31c62d230, type: 2}
   hintGlowEffect: {fileID: 639765521}
 --- !u!65 &1841469990
 BoxCollider:
@@ -21216,7 +21227,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: e2adce425665e1c4eadab6729fdb2dc8, type: 2}
   hintGlowEffect: {fileID: 942841606}
 --- !u!65 &1926242416
 BoxCollider:
@@ -21363,7 +21374,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: 74a7b8c24c53d4c419f74aaafa1c6578, type: 2}
   hintGlowEffect: {fileID: 1709050924}
 --- !u!65 &1936247856
 BoxCollider:
@@ -22446,8 +22457,8 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
-  hintGlowEffect: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: 4e18c8c4874635346b248115d44b23f9, type: 2}
+  hintGlowEffect: {fileID: 609425989}
 --- !u!1 &2016138552
 GameObject:
   m_ObjectHideFlags: 0
@@ -24397,7 +24408,7 @@ Transform:
   m_GameObject: {fileID: 8228974773553854258}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 1.8250109, z: 14.55}
+  m_LocalPosition: {x: -0, y: 1.17, z: 14.55}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24776,7 +24787,7 @@ MonoBehaviour:
   itemIcon: {fileID: 6120432056440860686, guid: b322394f3f90e8148ae74730f93fc7be, type: 3}
   requiredFlagToCollect: 
   flagToSetOnPickup: 
-  npcHintDialogue: {fileID: 0}
+  npcHintDialogue: {fileID: 11400000, guid: f3baabbccbf160e4b8fdc3e2afaea521, type: 2}
   hintGlowEffect: {fileID: 597176807}
 --- !u!65 &8113315845551569050
 BoxCollider:

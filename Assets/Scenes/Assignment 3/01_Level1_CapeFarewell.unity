@@ -6185,8 +6185,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HiddenObjectManager
   levelCompletionFlag: act1Complete
+  requiredFlagToCompleteLevel: 
   maxHintsAllowed: 3
   hintCoinCost: 25
+  levelSpecificFlags:
+  - metVacationer
+  - craftedFishingPole
+  - foundThermos
   parTimeSeconds: 90
   maxTimeSeconds: 480
   maxTimeBonus: 1000
@@ -6225,6 +6230,10 @@ MonoBehaviour:
   objectiveUI: {fileID: 1715618614}
   penaltyWarningDialogue: {fileID: 11400000, guid: 1c609c412bec7f2428b22be49c9bfcd9, type: 2}
   triggerOnlyOnFirstDeduction: 1
+  phase2TriggerFlag: discoveredLysKidnapping
+  jungleTrailGroup: {fileID: 0}
+  countItemID: TornCloth
+  countItemDisplayLabel: Torn Cloth Pieces
 --- !u!114 &798273609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6300,7 +6309,7 @@ MonoBehaviour:
   loreBodyText: {fileID: 0}
   loreIconImage: {fileID: 0}
   closeLoreButton: {fileID: 0}
-  playerCamera: {fileID: 0}
+  playerVirtualCamera: {fileID: 0}
   telescopeOverlayUI: {fileID: 0}
   normalFOV: 60
   telescopeFOV: 22
@@ -11250,9 +11259,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38c9c111b2fa296439d78761a8585a66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoryStateManager
+  initialDebugFlags: []
   coins: 100
   penaltyCount: 0
-  hintsUsedCount: 0
   cutsceneToPlay: 1
   postCutsceneDestinationScene: 02_Level2_FortDinosaur
 --- !u!4 &1639634256

@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fa61a36d07c29f49942915a8c641e9e, type: 3}
-  m_Name: Hint_TelescopeLens
+  m_Name: Hint_Cloth 5
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
   requiredFlag: 
   lines:
   - speakerName: Nobs
     speakerPortrait: {fileID: 3627091933096636603, guid: a81d6cdb89a9d3242b9f013a633b6a6b, type: 3}
-    text: '*Bark!* the telescope lens is near the cookhouse.'
+    text: Woof! * the cloth bit is tangled in  the leaves of a tree in the straight
+      part of the path!*
     voiceOrFoleyClip: {fileID: 0}
   highPenaltyLines: []
   flagToSetWhenFinished: 

@@ -5400,7 +5400,7 @@ MonoBehaviour:
   loreDescription: A thermos found floating and swirling in the sea at Cape Farewell.
   itemIcon: {fileID: 0}
   requiredFlagToCollect: 
-  flagToSetOnPickup: 
+  flagToSetOnPickup: collectedThermos
   npcHintDialogue: {fileID: 11400000, guid: 277690e77ebf63e48a7887e86604dccd, type: 2}
   hintGlowEffect: {fileID: 356420742}
 --- !u!114 &657636857
@@ -6149,6 +6149,8 @@ MonoBehaviour:
     objectiveDescription: Fish out the thermos.
   - triggerFlag: foundThermos
     objectiveDescription: Pick up the thermos.
+  - triggerFlag: collectedThermos
+    objectiveDescription: Gather the missing items on your list.
 --- !u!114 &798273607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6170,6 +6172,9 @@ MonoBehaviour:
   typewriterSpeed: 0.025
   audioSource: {fileID: 0}
   dialogueCutsceneCamera: {fileID: 1788331430}
+  bowenDialogueCamera: {fileID: 0}
+  speakerCameras: []
+  activeNpcCamera: {fileID: 0}
   activeNpcAnimator: {fileID: 0}
   talkingBoolParameter: isTalking
 --- !u!114 &798273608
@@ -6192,6 +6197,7 @@ MonoBehaviour:
   - metVacationer
   - craftedFishingPole
   - foundThermos
+  - collectedThermos
   parTimeSeconds: 90
   maxTimeSeconds: 480
   maxTimeBonus: 1000
@@ -6313,13 +6319,22 @@ MonoBehaviour:
   telescopeOverlayUI: {fileID: 0}
   normalFOV: 60
   telescopeFOV: 22
+  lanternUIPanel: {fileID: 0}
+  playerLanternObject: {fileID: 0}
   playerLanternLight: {fileID: 0}
+  lanternFireVFX: {fileID: 0}
   lanternFuelSlider: {fileID: 0}
   lanternStatusText: {fileID: 0}
   burnDuration: 60
+  flickerWarningDuration: 5
   cooldownDuration: 20
+  activeLightIntensity: 3
+  cooldownLightIntensity: 0.4
+  flickerSpeed: 24
   sfxSource: {fileID: 0}
   craftSuccessClip: {fileID: 0}
+  lanternIgniteClip: {fileID: 0}
+  lanternOutClip: {fileID: 0}
 --- !u!1001 &830064051
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8524,11 +8539,13 @@ MonoBehaviour:
   requiredFlag: craftedFishingPole
   flagToSet: foundThermos
   dialogueToPlay: {fileID: 0}
+  missingFlagFallbackDialogue: {fileID: 0}
   nextSceneName: 02_Level2_FortDinosaur
   loadingRecapPanel: {fileID: 0}
   recapStoryText: {fileID: 0}
   transitionRecapMessage: 
   npcAnimator: {fileID: 0}
+  npcDialogueCamera: {fileID: 0}
 --- !u!4 &1190722623
 Transform:
   m_ObjectHideFlags: 0
@@ -9025,11 +9042,13 @@ MonoBehaviour:
   requiredFlag: 
   flagToSet: metVacationer
   dialogueToPlay: {fileID: 11400000, guid: b1905eb3d3d3956409a26eb4459dac6d, type: 2}
+  missingFlagFallbackDialogue: {fileID: 0}
   nextSceneName: 
   loadingRecapPanel: {fileID: 0}
   recapStoryText: {fileID: 0}
   transitionRecapMessage: 
   npcAnimator: {fileID: 1269568281}
+  npcDialogueCamera: {fileID: 0}
 --- !u!1001 &1278782750
 PrefabInstance:
   m_ObjectHideFlags: 0

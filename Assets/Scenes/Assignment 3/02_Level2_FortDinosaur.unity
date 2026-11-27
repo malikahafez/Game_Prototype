@@ -1533,11 +1533,13 @@ MonoBehaviour:
   requiredFlag: foundLysComb
   flagToSet: discoveredLysKidnapping
   dialogueToPlay: {fileID: 11400000, guid: 3e1da2098620ff641a3c9aa8a1ce9cc3, type: 2}
+  missingFlagFallbackDialogue: {fileID: 0}
   nextSceneName: 
   loadingRecapPanel: {fileID: 0}
   recapStoryText: {fileID: 0}
   transitionRecapMessage: 
   npcAnimator: {fileID: 0}
+  npcDialogueCamera: {fileID: 0}
 --- !u!135 &139551929
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10976,13 +10978,22 @@ MonoBehaviour:
   telescopeOverlayUI: {fileID: 599065493}
   normalFOV: 40
   telescopeFOV: 15
+  lanternUIPanel: {fileID: 0}
+  playerLanternObject: {fileID: 0}
   playerLanternLight: {fileID: 0}
+  lanternFireVFX: {fileID: 0}
   lanternFuelSlider: {fileID: 0}
   lanternStatusText: {fileID: 0}
   burnDuration: 60
+  flickerWarningDuration: 5
   cooldownDuration: 20
+  activeLightIntensity: 3
+  cooldownLightIntensity: 0.4
+  flickerSpeed: 24
   sfxSource: {fileID: 0}
   craftSuccessClip: {fileID: 0}
+  lanternIgniteClip: {fileID: 0}
+  lanternOutClip: {fileID: 0}
 --- !u!114 &1058014120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11005,7 +11016,7 @@ MonoBehaviour:
   - triggerFlag: discoveredLysKidnapping
     objectiveDescription: Exit the fort gate and follow the torn cloth trail.
   - triggerFlag: allClothPiecesFound
-    objectiveDescription: Prepare to enter the Sto-Lu territory.
+    objectiveDescription: Gather the missing items on your list.
 --- !u!114 &1058014121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11027,6 +11038,9 @@ MonoBehaviour:
   typewriterSpeed: 0.025
   audioSource: {fileID: 0}
   dialogueCutsceneCamera: {fileID: 167185392}
+  bowenDialogueCamera: {fileID: 0}
+  speakerCameras: []
+  activeNpcCamera: {fileID: 0}
   activeNpcAnimator: {fileID: 0}
   talkingBoolParameter: isTalking
 --- !u!114 &1058014122
@@ -15924,11 +15938,13 @@ MonoBehaviour:
   requiredFlag: 
   flagToSet: 
   dialogueToPlay: {fileID: 11400000, guid: 68cfdc1ae9bfc1b4980bc00a051d1ce2, type: 2}
+  missingFlagFallbackDialogue: {fileID: 0}
   nextSceneName: 
   loadingRecapPanel: {fileID: 0}
   recapStoryText: {fileID: 0}
   transitionRecapMessage: 
   npcAnimator: {fileID: 1458302093}
+  npcDialogueCamera: {fileID: 0}
 --- !u!65 &1458302096
 BoxCollider:
   m_ObjectHideFlags: 0

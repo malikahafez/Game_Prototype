@@ -2851,6 +2851,10 @@ MonoBehaviour:
   objectiveMappings:
   - triggerFlag: lanternLit
     objectiveDescription: Search for Lys in the cave.
+  - triggerFlag: foundKnife
+    objectiveDescription: Cut Lys free.
+  - triggerFlag: lysRescued
+    objectiveDescription: Gather the missing items on your list.
 --- !u!114 &429323174
 MonoBehaviour:
   m_ObjectHideFlags: 0

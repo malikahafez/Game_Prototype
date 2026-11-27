@@ -16,8 +16,8 @@ MonoBehaviour:
   lines:
   - speakerName: Nobs
     speakerPortrait: {fileID: 3627091933096636603, guid: a81d6cdb89a9d3242b9f013a633b6a6b, type: 3}
-    text: "*Growl* Careful! Grabbing random junk wastes precious time\u2014focus
-      on the items on your list!"
+    text: "Growl *Careful! Grabbing random junk wastes precious time\u2014focus on
+      the items on your list!*"
     voiceOrFoleyClip: {fileID: 0}
   highPenaltyLines: []
   flagToSetWhenFinished: 

@@ -9023,7 +9023,7 @@ MonoBehaviour:
   isNPC: 1
   fireOnce: 1
   requiredFlag: 
-  flagToSet: 
+  flagToSet: metVacationer
   dialogueToPlay: {fileID: 11400000, guid: b1905eb3d3d3956409a26eb4459dac6d, type: 2}
   nextSceneName: 
   loadingRecapPanel: {fileID: 0}

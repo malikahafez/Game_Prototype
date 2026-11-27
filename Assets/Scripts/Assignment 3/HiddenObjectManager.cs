@@ -145,6 +145,10 @@ public class HiddenObjectManager : MonoBehaviour
         if (!string.IsNullOrEmpty(phase2TriggerFlag) && StoryStateManager.Instance != null)
             StoryStateManager.Instance.OnFlagSet += OnPhase2FlagTriggered;
 
+        if (!string.IsNullOrEmpty(requiredFlagToCompleteLevel) && StoryStateManager.Instance != null)
+        {
+            StoryStateManager.Instance.OnFlagSet += OnRequiredCompletionFlagSet;
+        }
         if (!string.IsNullOrEmpty(startGameplayAfterFlag) &&
             (StoryStateManager.Instance == null || !StoryStateManager.Instance.HasFlag(startGameplayAfterFlag)))
         {
@@ -165,7 +169,11 @@ public class HiddenObjectManager : MonoBehaviour
     private void OnDestroy()
     {
         if (StoryStateManager.Instance != null)
+        {
             StoryStateManager.Instance.OnFlagSet -= OnGameplayStartFlagSet;
+            StoryStateManager.Instance.OnFlagSet -= OnPhase2FlagTriggered;
+            StoryStateManager.Instance.OnFlagSet -= OnRequiredCompletionFlagSet;
+        }
     }
     private void OnGameplayStartFlagSet(string flag)
     {
@@ -285,6 +293,20 @@ public class HiddenObjectManager : MonoBehaviour
         }
     }
 
+    private void OnRequiredCompletionFlagSet(string flag)
+    {
+        if (flag == requiredFlagToCompleteLevel)
+        {
+            if (StoryStateManager.Instance != null)
+                StoryStateManager.Instance.OnFlagSet -= OnRequiredCompletionFlagSet;
+
+            // If all quest items were already collected before rescuing Lys, end the level now
+            if (activeQuestItems.Count == 0)
+            {
+                CompleteLevelSequence();
+            }
+        }
+    }
     public void OnNonQuestItemClicked()
     {
         if (sfxSource != null && wrongPickupPenaltyClip != null)

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Handles zone-entry triggers, NPC dialogue triggers, flag-gated interactions
-/// (e.g., fishing out the thermos, unlocking Lys's dwelling), and async scene transitions.
+/// (with optional fallback dialogue when the prerequisite flag is missing), and async scene transitions.
 /// </summary>
 public class NarrativeTriggerAndTransition : MonoBehaviour
 {
@@ -20,6 +20,8 @@ public class NarrativeTriggerAndTransition : MonoBehaviour
     public string requiredFlag;
     public string flagToSet;
     public DialogueData dialogueToPlay;
+    [Tooltip("Optional dialogue played if the player interacts BEFORE 'requiredFlag' is set (does not consume fireOnce or set flagToSet).")]
+    public DialogueData missingFlagFallbackDialogue;
 
     [Header("Scene Transition Settings")]
     public string nextSceneName;
@@ -27,15 +29,16 @@ public class NarrativeTriggerAndTransition : MonoBehaviour
     public TextMeshProUGUI recapStoryText;
     [TextArea(3, 6)]
     public string transitionRecapMessage;
-
     public Animator npcAnimator;
+
     private bool hasFired = false;
+
+    public GameObject npcDialogueCamera;
 
     private void OnTriggerEnter(Collider other)
     {
         if (mode != TriggerMode.ZoneEnter) return;
         if (!other.CompareTag("Player")) return;
-
         TriggerInteraction();
     }
 
@@ -43,12 +46,19 @@ public class NarrativeTriggerAndTransition : MonoBehaviour
     {
         if (fireOnce && hasFired) return;
 
-        // Verify required story state before allowing progression
+        // Check prerequisite story state before allowing main progression
         if (!string.IsNullOrEmpty(requiredFlag) &&
             StoryStateManager.Instance != null &&
             !StoryStateManager.Instance.HasFlag(requiredFlag))
         {
             Debug.Log($"[Blocked] Missing required flag: {requiredFlag}");
+
+            // Play repeatable fallback dialogue (e.g., Lys asking for a knife) without setting hasFired
+            if (missingFlagFallbackDialogue != null && DialogueManager.Instance != null)
+            {
+                DialogueManager.Instance.activeNpcAnimator = npcAnimator;
+                DialogueManager.Instance.StartDialogue(missingFlagFallbackDialogue);
+            }
             return;
         }
 
@@ -62,6 +72,7 @@ public class NarrativeTriggerAndTransition : MonoBehaviour
         if (dialogueToPlay != null && DialogueManager.Instance != null)
         {
             DialogueManager.Instance.activeNpcAnimator = npcAnimator;
+            DialogueManager.Instance.activeNpcCamera = npcDialogueCamera;
             DialogueManager.Instance.StartDialogue(dialogueToPlay);
         }
 
@@ -76,11 +87,9 @@ public class NarrativeTriggerAndTransition : MonoBehaviour
         if (loadingRecapPanel != null)
         {
             loadingRecapPanel.SetActive(true);
-            if (recapStoryText != null)
-                recapStoryText.text = transitionRecapMessage;
+            if (recapStoryText != null) recapStoryText.text = transitionRecapMessage;
         }
 
-        // Allow player time to read the narrative recap excerpt
         yield return new WaitForSeconds(4.0f);
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(nextSceneName);

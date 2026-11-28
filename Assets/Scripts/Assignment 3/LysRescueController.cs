@@ -21,7 +21,19 @@ public class LysRescueController : MonoBehaviour
     public float rotationSpeed = 6f;
     [Tooltip("Keep false so she remains standing Idle outside the cave.")]
     public bool hideAfterReachingExit = false;
+    
+    [Header("Optional Player Choice (At End of Dialogue)")]
+    public bool hasPlayerChoice = false;
+    [TextArea(1, 2)] public string choicePrompt;        // e.g., "Are you enjoying your vacation in Greenland?"
+    public string yesOptionLabel = "Yes";
+    public string noOptionLabel = "No";
 
+    [Header("Choice Consequences")]
+    public string yesFlagToSet;                         // e.g., "enjoyedGreenland" or "pettedNobs"
+    public string noFlagToSet;                          // e.g., "dislikedGreenland"
+    public int yesCoinReward = 0;                       // Set to 25 or 50 for Nobs ("Yes" -> coins!)
+    public DialogueData yesFollowUpDialogue;            // Plays immediately when player clicks Yes
+    public DialogueData noFollowUpDialogue;             // Plays immediately when player clicks No
     private bool hasStartedEscape = false;
 
     private void Start()

@@ -57,6 +57,14 @@ public class DialogueManager : MonoBehaviour
     public Animator activeNpcAnimator;
     public string talkingBoolParameter = "isTalking";
 
+
+    [Header("Player Choice UI")]
+    public GameObject choiceButtonGroup;   // Parent panel holding YesButton & NoButton
+    public Button yesChoiceButton;
+    public Button noChoiceButton;
+    public TextMeshProUGUI yesChoiceText;
+    public TextMeshProUGUI noChoiceText;
+
     public bool IsDialogueActive => dialoguePanel != null && dialoguePanel.activeSelf;
 
     private void Awake()
@@ -64,7 +72,9 @@ public class DialogueManager : MonoBehaviour
         Instance = this;
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
         if (nextButton != null) nextButton.onClick.AddListener(OnNextClicked);
-
+        if (choiceButtonGroup != null) choiceButtonGroup.SetActive(false);
+        if (yesChoiceButton != null) yesChoiceButton.onClick.AddListener(() => OnChoiceSelected(true));
+        if (noChoiceButton != null) noChoiceButton.onClick.AddListener(() => OnChoiceSelected(false));
         DisableAllDialogueCameras();
     }
 
@@ -112,7 +122,14 @@ public class DialogueManager : MonoBehaviour
     {
         if (currentLineIndex >= activeLines.Length)
         {
-            EndDialogue();
+            if (currentDialogue != null && currentDialogue.hasPlayerChoice)
+            {
+                ShowPlayerChoice();
+            }
+            else
+            {
+                EndDialogue();
+            }
             return;
         }
 
@@ -242,6 +259,57 @@ public class DialogueManager : MonoBehaviour
         if (currentDialogue != null && !string.IsNullOrEmpty(currentDialogue.flagToSetWhenFinished) && StoryStateManager.Instance != null)
         {
             StoryStateManager.Instance.SetFlag(currentDialogue.flagToSetWhenFinished);
+        }
+    }
+
+    private void ShowPlayerChoice()
+    {
+        if (nextButton != null) nextButton.gameObject.SetActive(false);
+        if (choiceButtonGroup != null) choiceButtonGroup.SetActive(true);
+
+        if (!string.IsNullOrEmpty(currentDialogue.choicePrompt))
+            bodyText.text = currentDialogue.choicePrompt;
+
+        if (yesChoiceText != null) yesChoiceText.text = currentDialogue.yesOptionLabel;
+        if (noChoiceText != null) noChoiceText.text = currentDialogue.noOptionLabel;
+    }
+
+    private void OnChoiceSelected(bool choseYes)
+    {
+        if (choiceButtonGroup != null) choiceButtonGroup.SetActive(false);
+        if (nextButton != null) nextButton.gameObject.SetActive(true);
+
+        DialogueData chosenData = currentDialogue;
+        string flagToAdd = choseYes ? chosenData.yesFlagToSet : chosenData.noFlagToSet;
+        int coinBonus = choseYes ? chosenData.yesCoinReward : 0;
+        DialogueData nextDialogue = choseYes ? chosenData.yesFollowUpDialogue : chosenData.noFollowUpDialogue;
+
+        if (StoryStateManager.Instance != null)
+        {
+            if (!string.IsNullOrEmpty(flagToAdd))
+                StoryStateManager.Instance.SetFlag(flagToAdd);
+
+            if (coinBonus > 0)
+            {
+                StoryStateManager.Instance.coins += coinBonus;
+                // Refresh the HUD coin display immediately
+                if (HiddenObjectManager.Instance != null)
+                    HiddenObjectManager.Instance.UpdateHUD(); // (or your coin text update method)
+            }
+        }
+
+        // Also set any completion flag on the parent dialogue before chaining
+        if (!string.IsNullOrEmpty(chosenData.flagToSetWhenFinished) && StoryStateManager.Instance != null)
+            StoryStateManager.Instance.SetFlag(chosenData.flagToSetWhenFinished);
+
+        if (nextDialogue != null)
+        {
+            StartDialogue(nextDialogue);
+        }
+        else
+        {
+            currentDialogue = null; // Prevent EndDialogue from double-firing flagToSetWhenFinished
+            EndDialogue();
         }
     }
 }

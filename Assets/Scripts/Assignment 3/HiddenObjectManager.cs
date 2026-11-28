@@ -255,7 +255,11 @@ public class HiddenObjectManager : MonoBehaviour
 
         if (sfxSource != null && correctPickupClip != null)
             sfxSource.PlayOneShot(correctPickupClip);
-
+        if (StoryStateManager.Instance != null)
+        {
+            StoryStateManager.Instance.RecordDiscoveredLore(
+                item.itemID, item.displayPrompt, item.loreDescription, item.itemIcon, levelActNumber);
+        }
         // Strike through and fade the collected entry in the HUD list
         if (uiEntries.TryGetValue(item, out TextMeshProUGUI label))
         {
@@ -354,7 +358,7 @@ public class HiddenObjectManager : MonoBehaviour
         }
     }
 
-    private void UpdateHUD()
+    public void UpdateHUD()
     {
         if (StoryStateManager.Instance == null) return;
 

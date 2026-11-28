@@ -20,3 +20,12 @@ MonoBehaviour:
     voiceOrFoleyClip: {fileID: 0}
   highPenaltyLines: []
   flagToSetWhenFinished: 
+  hasPlayerChoice: 1
+  choicePrompt: Woof!  *Am I a good boy?*
+  yesOptionLabel: Yes
+  noOptionLabel: No
+  yesFlagToSet: nobsGoodBoy_L2
+  noFlagToSet: nobsBadBoy_L2
+  yesCoinReward: 50
+  yesFollowUpDialogue: {fileID: 11400000, guid: 907f0614f3bb0a04b8d5b3988f1c20fd, type: 2}
+  noFollowUpDialogue: {fileID: 11400000, guid: dd080e1b716e07046b08fe899b29b9b5, type: 2}

@@ -16,6 +16,12 @@ public class NarrativeTriggerAndTransition : MonoBehaviour
     public bool isNPC = false;
     public bool fireOnce = true;
 
+    [Header("Cross-Level Flag Reactivity")]
+    [Tooltip("Optional flag from an earlier level (e.g., 'nobsGoodBoy_L2').")]
+    public string alternateDialogueFlag;
+    [Tooltip("Plays instead of 'dialogueToPlay' if 'alternateDialogueFlag' is already set.")]
+    public DialogueData alternateDialogueToPlay;
+
     [Header("Narrative Conditions & Actions")]
     public string requiredFlag;
     public string flagToSet;
@@ -69,11 +75,26 @@ public class NarrativeTriggerAndTransition : MonoBehaviour
             StoryStateManager.Instance.SetFlag(flagToSet);
         }
 
-        if (dialogueToPlay != null && DialogueManager.Instance != null)
+        // if (dialogueToPlay != null && DialogueManager.Instance != null)
+        // {
+        //     DialogueManager.Instance.activeNpcAnimator = npcAnimator;
+        //     DialogueManager.Instance.activeNpcCamera = npcDialogueCamera;
+        //     DialogueManager.Instance.StartDialogue(dialogueToPlay);
+        // }
+        DialogueData chosenDialogue = dialogueToPlay;
+        if (!string.IsNullOrEmpty(alternateDialogueFlag) &&
+            alternateDialogueToPlay != null &&
+            StoryStateManager.Instance != null &&
+            StoryStateManager.Instance.HasFlag(alternateDialogueFlag))
+        {
+            chosenDialogue = alternateDialogueToPlay;
+        }
+
+        if (chosenDialogue != null && DialogueManager.Instance != null)
         {
             DialogueManager.Instance.activeNpcAnimator = npcAnimator;
             DialogueManager.Instance.activeNpcCamera = npcDialogueCamera;
-            DialogueManager.Instance.StartDialogue(dialogueToPlay);
+            DialogueManager.Instance.StartDialogue(chosenDialogue);
         }
 
         if (mode == TriggerMode.SceneTransitionGate && !string.IsNullOrEmpty(nextSceneName))

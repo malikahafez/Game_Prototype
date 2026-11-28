@@ -226,6 +226,13 @@ public class InventoryAndCraftingSystem : MonoBehaviour
             icon = item.itemIcon
         });
 
+        if (StoryStateManager.Instance != null)
+        {
+            int currentAct = HiddenObjectManager.Instance != null ? HiddenObjectManager.Instance.levelActNumber : 1;
+            StoryStateManager.Instance.RecordDiscoveredLore(
+                item.itemID, item.displayPrompt, item.loreDescription, item.itemIcon, currentAct);
+        }
+
         // If the player acquired an already-lit lantern while inside the cave, enable it immediately
         if (item.itemID == "LitLantern" && isPlayerInCave)
         {
@@ -259,6 +266,12 @@ public class InventoryAndCraftingSystem : MonoBehaviour
                     displayName = recipe.resultDisplayName,
                     icon = recipe.resultSprite
                 });
+                if (StoryStateManager.Instance != null)
+                {
+                    int currentAct = HiddenObjectManager.Instance != null ? HiddenObjectManager.Instance.levelActNumber : 1;
+                    StoryStateManager.Instance.RecordDiscoveredLore(
+                        recipe.resultToolID, recipe.resultDisplayName, recipe.resultLoreDescription, recipe.resultSprite, currentAct);
+                }
 
                 if (sfxSource != null && craftSuccessClip != null)
                     sfxSource.PlayOneShot(craftSuccessClip);

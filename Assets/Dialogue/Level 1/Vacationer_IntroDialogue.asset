@@ -16,7 +16,7 @@ MonoBehaviour:
   lines:
   - speakerName: Vacationer
     speakerPortrait: {fileID: 5495316049830206490, guid: af3e03d075a8238498e997b39f4b5410, type: 3}
-    text: Careful on the black ice, friend! The wind off Cape Farewell has been blowing
+    text: Careful on the ice, friend! The wind off Cape Farewell has been blowing
       wreckage ashore all morning.
     voiceOrFoleyClip: {fileID: 0}
   - speakerName: Vacationer
@@ -33,4 +33,13 @@ MonoBehaviour:
       in!"
     voiceOrFoleyClip: {fileID: 0}
   highPenaltyLines: []
-  flagToSetWhenFinished: metVacationer
+  flagToSetWhenFinished: 
+  hasPlayerChoice: 1
+  choicePrompt: Are you enjoying your vacation in Greenland so far?
+  yesOptionLabel: Yes
+  noOptionLabel: No
+  yesFlagToSet: enjoyedGreenland
+  noFlagToSet: hatedGreenland
+  yesCoinReward: 0
+  yesFollowUpDialogue: {fileID: 11400000, guid: d75931c137c0b514b84e1541ad5d975e, type: 2}
+  noFollowUpDialogue: {fileID: 11400000, guid: c31339c6d36284942855f40224406863, type: 2}

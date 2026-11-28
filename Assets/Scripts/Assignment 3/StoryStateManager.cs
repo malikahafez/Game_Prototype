@@ -2,6 +2,16 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class CollectedLoreEntry
+{
+    public string itemID;
+    public string itemName;
+    [TextArea(2, 4)] public string loreDescription;
+    public Sprite itemSprite;
+    public int actFound;
+}
+
 public class StoryStateManager : MonoBehaviour
 {
     public static StoryStateManager Instance { get; private set; }
@@ -13,6 +23,9 @@ public class StoryStateManager : MonoBehaviour
     [Header("Player Progress & Economy")]
     public int coins = 100;
     public int penaltyCount = 0;
+
+    [Header("Persistent Lore Collection / Codex")]
+    public List<CollectedLoreEntry> discoveredLoreItems = new List<CollectedLoreEntry>();
 
     [HideInInspector] public int cutsceneToPlay = 1;
     [HideInInspector] public string postCutsceneDestinationScene = "02_Level2_FortDinosaur";
@@ -96,6 +109,21 @@ public class StoryStateManager : MonoBehaviour
         if (coins < cost) return false;
         coins -= cost;
         return true;
+    }
+
+    public void RecordDiscoveredLore(string id, string displayName, string description, Sprite icon, int actNumber)
+    {
+        if (string.IsNullOrEmpty(id)) return;
+        if (discoveredLoreItems.Exists(e => e.itemID == id)) return; // Prevent duplicates
+
+        discoveredLoreItems.Add(new CollectedLoreEntry
+        {
+            itemID = id,
+            itemName = displayName,
+            loreDescription = description,
+            itemSprite = icon,
+            actFound = actNumber
+        });
     }
 
 #if UNITY_EDITOR
